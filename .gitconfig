@@ -1,0 +1,1 @@
+fetch = +refs/heads/*:refs/remotes/origin/*
