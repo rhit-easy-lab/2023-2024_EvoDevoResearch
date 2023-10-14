@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import control.Constants;
 import control.SeededRandom;
+import landscape.ExaptFitness;
 import landscape.FitnessFunction;
 import landscape.NKLandscape;
 import landscape.NumOnes;
@@ -33,6 +34,9 @@ public class Simulation {
 				break;
 			case "numones":
 				this.fitFunction = new NumOnes();
+				break;
+			case "exaptfitness":
+				this.fitFunction = new ExaptFitness();
 				break;
 			default:
 				System.out.println("FITNESS_FUNCTION_TYPE not recognized");

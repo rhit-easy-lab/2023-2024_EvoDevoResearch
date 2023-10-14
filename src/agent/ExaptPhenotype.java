@@ -13,13 +13,26 @@ public class ExaptPhenotype extends Phenotype{
 		this.fitness = fitness1;
 	}
 	
+	public ExaptPhenotype(ExaptPhenotype pheno) {
+		this.nodeNumber = pheno.getNumber();
+		this.fitness = pheno.getFitness();
+		this.neighbors = pheno.getNeighbors();
+	}
+	
+	
 // The mainbranchNumber is the number of nodes that should be on the main branch. 
-//The fitness multiplier is related to the fitness, which is calculated based on the multiplier, the node number, and the branch the node is in.
-//The junction1 is the node number of the place where the downwards branch starts. It is important to note that node numbers start at 0.
+//The fitness multiplier is related to the fitness, which is calculated based on the multiplier, 
+//the node number, and the branch the node is in.
+//The junction1 is the node number of the place where the downwards branch starts. 
+//It is important to note that node numbers start at 0.
 //The downBranchNumber is the number of nodes on the downwards branch
 //The upBranchNumber is the number of nodes on the branch starting at the end of the downwards branch.
-//The nodeNumbers start at 0, juntion1 is the nodenumber of the first junction.
-public static Phenotype getFirst(int mainbranchNumber, double fitnessMultiplier, int junction1, int downBranchNumber, int upBranchNumber) {
+//The nodeNumbers start at 0, juntion1 is the node number of the first junction.
+	
+	
+	
+public static Phenotype getFirst(int mainbranchNumber, double fitnessMultiplier, 
+		int junction1, int downBranchNumber, int upBranchNumber) {
 	List<Phenotype> mainBranch = new ArrayList<Phenotype>();
 	List<ArrayList<Phenotype>> edges = new ArrayList<ArrayList<Phenotype>>();
 	
@@ -45,6 +58,7 @@ public static Phenotype getFirst(int mainbranchNumber, double fitnessMultiplier,
 	if(mainBranch.get(0).getNeighbors().size() == 0) {
 		System.out.print(")");
 	}
+	
 	for(int z = 0; z < mainBranch.get(0).getNeighbors().size(); z++) {
 		if(mainBranch.get(0).getNeighbors().get(z) == null) {
 			System.out.print("NUll");
@@ -172,6 +186,10 @@ public Phenotype getIdenticalCopy() {
 
 public int getNumber() {
 	return this.nodeNumber;
+}
+
+public double getFitness() {
+	return this.fitness;
 }
 
 @Override

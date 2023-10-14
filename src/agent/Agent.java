@@ -131,6 +131,8 @@ public class Agent implements Comparable<Agent> {
 				return new NKPhenotype();
 			case "nkphenotypefast":
 				return new NKPhenotypeFast();
+			case "exaptphenotype":
+				return new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(20, 1, 10, 5, 5));
 			default:
 				System.out.println("PHENOTYPE_TYPE not recognized");
 				return null;
