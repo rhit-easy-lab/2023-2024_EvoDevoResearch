@@ -1,8 +1,14 @@
 package evolution;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import agent.Agent;
 import control.Constants;
 import control.SeededRandom;
 import landscape.ExaptFitness;
@@ -13,7 +19,8 @@ import landscape.NumOnes;
 /**
  * Represents a single evolutionary simulation on a single landscape.
  * 
- * @author Jacob Ashworth
+ * @author Jacob Ashworth, and some changes by Emile Marois
+ * 
  *
  */
 public class Simulation {
@@ -24,6 +31,7 @@ public class Simulation {
 	private ArrayList<Generation> generations = new ArrayList<>();
 	//Used to generate new generations
 	private SelectionStrategy selectionStrategy;
+
 	
 	public Simulation()
 	{
@@ -93,10 +101,87 @@ public class Simulation {
 			nextGeneration.executeAllStrategies();
 			generations.add(nextGeneration);
 		}
+		if(Constants.FITNESS_FUNCTION_TYPE.toLowerCase().equals("exaptfitness")) {
+			this.printLineage();
+		}
+		
 	}
+	
+	
 	
 	public ArrayList<Generation> getGenerations() {
 		return generations;
+	}
+	
+	
+	//Finds an agent with max fitness for exaptation
+	public void printLineage() {
+		Agent guy = null;
+		//finds the latest max fitness one? I'll change this once we've decided what we want to focus on.
+		for(int i = generations.size() - 1; i > -1; i--) {
+			if(generations.get(i).getBest().exaptBest()) {
+				guy = generations.get(i).getBest();
+				break;
+			}
+		}
+
+		if(guy != null) {
+			this.setUpPrinting(guy);
+	
+		}
+		
+	}
+	
+	//makes a filewriter, sets up a header and begins a recursive call
+	public void setUpPrinting(Agent guy) {
+
+		File file = new File("output/" + Constants.LINEAGE_FILENAME + ".csv");
+		file.getParentFile().mkdirs();
+		
+		PrintWriter out;
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+			return;
+		}
+
+		//Creates a header
+		StringBuilder line = new StringBuilder();
+		line.append("Simulation,");
+		line.append("Generation,");
+		line.append("Agent_ID,");
+
+		line.append("Function,");
+		
+
+		line.append("Block,");
+		
+
+		line.append("Program,");
+		
+
+		line.append("Strategy,");
+		
+
+		line.append("Final_Fitness,");
+		
+
+		line.append("Fitness_history,");
+		
+
+//		line.append("Parent_number,");
+
+		
+		
+		line.replace(line.length()-1, line.length(), "\n"); //replace the extra comma with a next line
+		out.print(line);
+		
+		guy.printLineage(out, 1, generations.size()-1);
+		
+		System.out.println("Lineage written");
+		
 	}
 
 }

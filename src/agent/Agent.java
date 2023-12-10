@@ -1,9 +1,12 @@
 
 package agent;
 
+import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import control.ExperimentWriter;
 import control.Constants;
 import control.SeededRandom;
 import landscape.FitnessFunction;
@@ -23,6 +26,8 @@ import landscape.NKLandscape;
 public class Agent implements Comparable<Agent> {
 	//Fields related to evolutionary past
 	private Agent parent = null;
+	private String id = null;
+	//Id should be {genNum}:{specificId} 
 	
 	//Fields related to developmental strategy
 	private List<Integer> program;
@@ -148,11 +153,22 @@ public class Agent implements Comparable<Agent> {
 	 * 
 	 * @param fitnessFunction FitnessFunction for the agent to operate on
 	 */
+	public Agent(FitnessFunction fitnessFunction, Phenotype p, String id)
+	{
+		this(fitnessFunction);
+		
+		//Set our phenotype to the given one. Make a copy so we don't have a ton of agents linked to the same phenotype
+		this.id = id;
+		this.phenotype = p.getIdenticalCopy();
+		this.compileStrategyAndInitializeHistory();
+	}
+	
 	public Agent(FitnessFunction fitnessFunction, Phenotype p)
 	{
 		this(fitnessFunction);
 		
 		//Set our phenotype to the given one. Make a copy so we don't have a ton of agents linked to the same phenotype
+		this.id = "none";
 		this.phenotype = p.getIdenticalCopy();
 		this.compileStrategyAndInitializeHistory();
 	}
@@ -161,6 +177,19 @@ public class Agent implements Comparable<Agent> {
 	 * Constructor used to exactly specify an agent, with all relevant fields. 
 	 * Mostly called by the identicalChild() function.
 	 */
+	public Agent(FitnessFunction fitnessFunction, Phenotype phenotype, List<Integer> program, List<List<Step>> blocks, Agent parent, String iD)
+	{
+		this.phenotype = phenotype;
+		this.fitnessFunction = fitnessFunction;
+		this.fitness = fitnessFunction.getFitness(phenotype);
+		this.program = program;
+		this.blocks = blocks;
+		this.parent = parent;
+		this.id = iD;
+		//Compile the program and blocks into the strategy
+		this.compileStrategyAndInitializeHistory();
+	}
+	
 	public Agent(FitnessFunction fitnessFunction, Phenotype phenotype, List<Integer> program, List<List<Step>> blocks, Agent parent)
 	{
 		this.phenotype = phenotype;
@@ -169,6 +198,7 @@ public class Agent implements Comparable<Agent> {
 		this.program = program;
 		this.blocks = blocks;
 		this.parent = parent;
+		this.id = "none";
 		//Compile the program and blocks into the strategy
 		this.compileStrategyAndInitializeHistory();
 	}
@@ -181,12 +211,19 @@ public class Agent implements Comparable<Agent> {
 				return new NKPhenotypeFast();
 			case "exaptphenotype":
 				//Exaptation Landscape
-				return new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(20, 19, 23, 10, 1, 8, 10));
+				
+				return new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(Constants.MAIN_BRANCH_NUMBER, 
+						Constants.LOCAL_MAX, Constants.GLOBAL_MAX, Constants.JUNCTION_NUM, Constants.LOCAL_MIN, 
+						Constants.DOWN_BRANCH_NUMBER, Constants.UP_BRANCH_NUMBER));
 			default:
 				System.out.println("PHENOTYPE_TYPE not recognized");
 				return null;
 		}
 	}
+	
+	
+	
+
 	
 	/**
 	 * This method compiles the developmental strategy from the program and
@@ -440,8 +477,18 @@ public class Agent implements Comparable<Agent> {
 		
 		Phenotype childPhenotype = phenotype.getIdenticalCopy();
 		
+		
+		//generates a unique ID
+		String genNum = this.id.substring(0, 3);
+		int num = Integer.parseInt(genNum);
+		num = num + 1;
+		int index  = this.id.indexOf(':');
+		String specID = this.id.substring(index+1);
+		String beginning = String.format("%0" + 3 + "d", num);
+		String childID = beginning + ":" + specID;
+
 		//Use the constructor to make the new agent, and return it
-		return new Agent(fitnessFunction, childPhenotype, childProgram, childBlocks, this);
+		return new Agent(fitnessFunction, childPhenotype, childProgram, childBlocks, this, childID);
 	}
 	
 	/**
@@ -666,6 +713,79 @@ public class Agent implements Comparable<Agent> {
 			System.out.println("getFinalFitness called on undeveloped agent");
 			return null;
 		}
+	}
+	
+	public String getID() {
+		return this.id;
+	}
+	
+	public void printLineage(PrintWriter out, int simulationNum, int genIndex) {
+		StringBuilder line = new StringBuilder();
+		
+		// Simulation
+		line.append(simulationNum+",");
+
+		// Generation
+		line.append(ExperimentWriter.toCSVDelimited(genIndex+","));
+
+		// Agent Number
+		line.append(this.getID()+",");
+		
+		
+		if(true) {
+			line.append(ExperimentWriter.toCSVDelimited(Constants.FITNESS_FUNCTION_TYPE));//TODO make this better so that it can include more details
+		}
+		
+		if(true) {
+			StringBuilder sb = new StringBuilder();
+			for(List<Step> block : this.getBlocks()) {
+				sb.append("{");
+				for(Step s : block) {
+					sb.append(s.toString());
+					sb.append(",");
+				}
+				sb.replace(sb.length()-1, sb.length(), "},"); // replace extra comma with closing bracket and separating comma
+			}
+			sb.deleteCharAt(sb.length()-1); // remove extra comma
+			line.append(ExperimentWriter.toCSVDelimited(sb.toString()));
+		}
+		
+		if(true) {
+			StringBuilder sb = new StringBuilder();
+			if(Constants.PROGRAM_LENGTH > 0)
+			{
+			for(Integer block : this.getProgram()) {
+				sb.append(block);
+				sb.append(",");
+			}
+			sb.deleteCharAt(sb.length()-1); // remove extra comma
+			}
+			line.append(ExperimentWriter.toCSVDelimited(sb.toString()));
+		}
+		
+			line.append(ExperimentWriter.toCSVDelimited(this.getStrategy().toString()));
+		
+	
+			line.append(""+this.getFinalFitness()+',');
+		
+		
+
+		
+		
+//			line.append("PLACEHOLDER,"); // TODO replace with actual parent number
+		
+		
+		line.replace(line.length()-1, line.length(), "\n"); // replace the extra comma with a next line
+		out.print(line);
+		if(this.parent != null)
+			this.parent.printLineage(out, simulationNum, genIndex-1);
+		else
+			return;
+		
+	}
+	
+	public boolean exaptBest() {
+		return this.getFinalFitness()==23;
 	}
 }
 

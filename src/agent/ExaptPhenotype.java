@@ -3,6 +3,8 @@ package agent;
 import java.util.ArrayList;
 import java.util.List;
 
+import control.Constants;
+
 public class ExaptPhenotype extends Phenotype{
 	private List<Phenotype> neighbors;
 	private int nodeNumber;
@@ -161,7 +163,9 @@ public List<Phenotype> getNeighbors() {
 @Override
 public Phenotype getIdenticalCopy() {
 	// TODO Auto-generated method stub
-	Phenotype copy = new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(20, 19, 23, 10, 1, 8, 10));
+	Phenotype copy = new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(Constants.MAIN_BRANCH_NUMBER, 
+			Constants.LOCAL_MAX, Constants.GLOBAL_MAX, Constants.JUNCTION_NUM, Constants.LOCAL_MIN, 
+			Constants.DOWN_BRANCH_NUMBER, Constants.UP_BRANCH_NUMBER));
 	return copy;
 }
 

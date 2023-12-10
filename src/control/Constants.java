@@ -45,4 +45,15 @@ public class Constants {
 	//EndNew
 	
 	public static final int NUMBER_OF_BLOCKS = Integer.parseInt(PropParser.getProperty("numberOfBlocks"));
+	
+ // Exapation Constants
+	public static final int MAIN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("mainBranchNumber"));
+	public static final double LOCAL_MAX = Double.parseDouble(PropParser.getProperty("localMax"));
+	public static final double GLOBAL_MAX = Double.parseDouble(PropParser.getProperty("globalMax"));
+	public static final int JUNCTION_NUM = Integer.parseInt(PropParser.getProperty("junctionNum"));
+	public static final int LOCAL_MIN = Integer.parseInt(PropParser.getProperty("localMin"));
+	public static final int DOWN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("downBranchNumber"));
+	public static final int UP_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("upBranchNumber"));
+	public static final String LINEAGE_FILENAME = PropParser.getProperty("lineageFile");
+	
 }

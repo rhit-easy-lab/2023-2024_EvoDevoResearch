@@ -182,7 +182,7 @@ public class ExperimentWriter {
 	 * Writes a singular Generation to the CSV file
 	 * genIndex is a string rather than integer to allow for extra-evolutionary generation runs
 	 * @param gen
-	 * @param genIndex
+	 * @param genIndex	
 	 */
 	public void writeGen(Generation gen, String genIndex, int[] agent_numbers) {
 		List<Agent> agents = gen.getAgents();
@@ -199,7 +199,7 @@ public class ExperimentWriter {
 			line.append(toCSVDelimited(genIndex));
 
 			// Agent Number
-			line.append(num+",");
+			line.append(agent.getID()+",");
 			
 			if(params.contains("generation size")) {
 				line.append(Constants.GENERATION_SIZE+",");
