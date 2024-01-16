@@ -31,6 +31,8 @@ public class Simulation {
 	private ArrayList<Generation> generations = new ArrayList<>();
 	//Used to generate new generations
 	private SelectionStrategy selectionStrategy;
+	
+	//keeps track of condition
 
 	
 	public Simulation()
@@ -83,7 +85,7 @@ public class Simulation {
 	}
 	
 	/**
-	 * Runs an evolutionar loop for numGenerations
+	 * Runs an evolutionary loop for numGenerations
 	 * 
 	 * @param numGenerations number of generations in evolutionary loop
 	 */
@@ -100,8 +102,40 @@ public class Simulation {
 			Generation nextGeneration = selectionStrategy.getNextGeneration(generations.get(generations.size()-1));
 			nextGeneration.executeAllStrategies();
 			generations.add(nextGeneration);
+			
+			int condA = 0;
+			int condB = 0;
+			int condC = 0;
+			//detects conditions
+			for(Agent a: nextGeneration.getAgents()) {
+				
+				if(a.detectCopy()) {
+					System.out.println("Agent " + a.getID() + "has reached condition A");
+					condA++;
+				}
+				
+
+				if(a.detectFunctionalMutation()) {
+					System.out.println("Agent " + a.getID() + "has reached condition B");
+					condB++;
+				}
+				
+				
+				if(a.detectReintroduction()) {
+					System.out.println("Agent " + a.getID() + "has reached condition C");
+					condC++;
+				}
+				
+				
+			}
+			
+			System.out.println("Condition A has been reached " + condA + " times");
+			System.out.println("Condition B has been reached " + condB + " times");
+			System.out.println("Condition C has been reached " + condC + " times");
 		}
 		if(Constants.FITNESS_FUNCTION_TYPE.toLowerCase().equals("exaptfitness")) {
+			
+			
 			this.printLineage();
 		}
 		
@@ -149,26 +183,39 @@ public class Simulation {
 
 		//Creates a header
 		StringBuilder line = new StringBuilder();
-		line.append("Simulation,");
+		line.append("Run,");
 		line.append("Generation,");
+		line.append("Final_Fitness,");
 		line.append("Agent_ID,");
-
+		line.append("Cond A,");
+		line.append("Cond B,");
+		line.append("Cond C,");
+	
 		line.append("Function,");
 		
-
-		line.append("Block,");
+		//spacing
+		line.append(" ,");
+		
+		for(int i = 0; i < Constants.UPPER_NUMBER_OF_BLOCKS; i++) {
+			
+			for(int j = 0; j < Constants.BLOCK_LENGTH; j++) {
+				line.append("Block " + i + "." );
+				line.append(j + ",");
+			}
+			line.append(" ,");
+		}
 		
 
-		line.append("Program,");
+		for(int i = 0; i < Constants.PROGRAM_LENGTH; i++) {
+			line.append("P" + i + ",");
+		}
+		
 		
 
-		line.append("Strategy,");
+
 		
 
-		line.append("Final_Fitness,");
-		
 
-		line.append("Fitness_history,");
 		
 
 //		line.append("Parent_number,");
@@ -179,6 +226,8 @@ public class Simulation {
 		out.print(line);
 		
 		guy.printLineage(out, 1, generations.size()-1);
+		
+		out.close();
 		
 		System.out.println("Lineage written");
 		

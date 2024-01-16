@@ -57,6 +57,12 @@ public class Agent implements Comparable<Agent> {
 	private List<Step> stepList = new ArrayList<Step>();
 	private List<String> stringList = new ArrayList<String>();
 	
+	
+	//Fields related to conditions
+	private boolean conditionA = false;
+	private boolean conditionB = false;
+	private boolean conditionC = false;
+	
 	/**
 	 * Default constructor for Agent. Creates an agent with a random initial phenotype,
 	 * program, and blocks.
@@ -479,13 +485,13 @@ public class Agent implements Comparable<Agent> {
 		
 		
 		//generates a unique ID
-		String genNum = this.id.substring(0, 3);
-		int num = Integer.parseInt(genNum);
-		num = num + 1;
-		int index  = this.id.indexOf(':');
+//		String genNum = this.id.substring(0, 3);
+//		int num = Integer.parseInt(genNum);
+//		num = num + 1;
+		int index  = this.id.indexOf('~');
 		String specID = this.id.substring(index+1);
-		String beginning = String.format("%0" + 3 + "d", num);
-		String childID = beginning + ":" + specID;
+		String beginning = this.id.substring(0, index);
+		String childID = "XXXX" + "~" + beginning;
 
 		//Use the constructor to make the new agent, and return it
 		return new Agent(fitnessFunction, childPhenotype, childProgram, childBlocks, this, childID);
@@ -719,6 +725,7 @@ public class Agent implements Comparable<Agent> {
 		return this.id;
 	}
 	
+	
 	public void printLineage(PrintWriter out, int simulationNum, int genIndex) {
 		StringBuilder line = new StringBuilder();
 		
@@ -726,28 +733,53 @@ public class Agent implements Comparable<Agent> {
 		line.append(simulationNum+",");
 
 		// Generation
-		line.append(ExperimentWriter.toCSVDelimited(genIndex+","));
+		line.append(ExperimentWriter.toCSVDelimited(genIndex+""));
+		
+		// Final Fitness
+		line.append(""+this.getFinalFitness()+',');
 
 		// Agent Number
 		line.append(this.getID()+",");
+		
+		// Reached Condition A
+		line.append(this.conditionA+",");
+		
+		// Condition B
+		line.append(this.conditionB+",");
+		
+		//Condition C
+		line.append(this.conditionC+",");
+		
+		
 		
 		
 		if(true) {
 			line.append(ExperimentWriter.toCSVDelimited(Constants.FITNESS_FUNCTION_TYPE));//TODO make this better so that it can include more details
 		}
 		
-		if(true) {
+		//spacing
+		line.append(" ,");
+		
+
+		List<List<Step>> tableBlocks = this.getBlocks();
+		for(int i = 0;i < Constants.UPPER_NUMBER_OF_BLOCKS; i++) {
 			StringBuilder sb = new StringBuilder();
-			for(List<Step> block : this.getBlocks()) {
-				sb.append("{");
+			if(i < tableBlocks.size()) {
+				List<Step> block = tableBlocks.get(i);
 				for(Step s : block) {
-					sb.append(s.toString());
-					sb.append(",");
+					line.append(s.toString() + ",");
 				}
-				sb.replace(sb.length()-1, sb.length(), "},"); // replace extra comma with closing bracket and separating comma
+
+			}else {
+
+				for(int j = 0; j < Constants.BLOCK_LENGTH; j++) {
+					line.append("X,");
+				}
+
 			}
-			sb.deleteCharAt(sb.length()-1); // remove extra comma
-			line.append(ExperimentWriter.toCSVDelimited(sb.toString()));
+			
+			line.append(" ,");
+
 		}
 		
 		if(true) {
@@ -755,18 +787,18 @@ public class Agent implements Comparable<Agent> {
 			if(Constants.PROGRAM_LENGTH > 0)
 			{
 			for(Integer block : this.getProgram()) {
-				sb.append(block);
-				sb.append(",");
+				line.append(block);
+				line.append(",");
 			}
-			sb.deleteCharAt(sb.length()-1); // remove extra comma
+
 			}
-			line.append(ExperimentWriter.toCSVDelimited(sb.toString()));
+
 		}
 		
-			line.append(ExperimentWriter.toCSVDelimited(this.getStrategy().toString()));
+
 		
 	
-			line.append(""+this.getFinalFitness()+',');
+
 		
 		
 
@@ -787,6 +819,122 @@ public class Agent implements Comparable<Agent> {
 	public boolean exaptBest() {
 		return this.getFinalFitness()==23;
 	}
+	
+	public void setID(int indivNum) {
+		
+		int index  = this.id.indexOf('~');
+		String specID = this.id.substring(index+1);
+		String childID = "XXXX" + "~"+ specID;
+		
+		String newID = indivNum + "~" + specID;
+		this.id = newID;
+		
+	}
+	
+	
+	//Condition A
+	//Should detect when a block is copied, as child will have a bigger number of blocks.
+	public boolean detectCopy() {
+		if(parent == null)
+			return false;
+		
+		int parentNum = this.parent.getBlocks().size();
+		int childNum = this.getBlocks().size();
+		
+		if(childNum > parentNum) {
+			this.conditionA = true;
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	//Condition B
+	// should detect when one of the blocks acquires a mutation that changes the function.
+	public boolean detectFunctionalMutation() {
+		
+		List<List<Step>> childList = this.getBlocks();
+		List<List<Step>> parentList = this.parent.getBlocks();
+		
+		boolean mutation = false;;
+		
+		if(childList.size() > parentList.size())
+			return false;
+		
+		//we want to go through each block, and each step in each block, and see if the function changes
+		for(int i = 0; i < childList.size(); i++) {
+			int childCount = 0;
+			int parentCount = 0;
+			
+			int childDirection = 0;
+			int parentDirection = 0;
+			
+			for(Step s: childList.get(i)) {
+				switch(s) {
+				case RandomWalk:
+					childDirection = 0;
+					break;
+				case SteepestClimb:
+					childCount++;
+					childDirection = 1;
+					break;
+				case SteepestFall:
+					childCount--;
+					childDirection = -1;
+					break;
+				case SameStep:
+					childCount += childDirection;
+					break;
+				}
+			}
+			
+			for(Step s: parentList.get(i)) {
+				switch(s) {
+				case RandomWalk:
+					parentDirection = 0;
+					break;
+				case SteepestClimb:
+					parentCount++;
+					parentDirection = 1;
+					break;
+				case SteepestFall:
+					parentCount--;
+					parentDirection = -1;
+					break;
+				case SameStep:
+					parentCount += parentDirection;
+					break;
+				}
+			}
+			
+			
+			if(childCount != parentCount) {
+				conditionB = true;
+				mutation = true;
+			} 
+		}
+		
+		return mutation;
+	
+	}
+	
+	
+	//Condition C
+	//detects when a new block is introduced into the plan
+	public boolean detectReintroduction() {
+		for(int i: program) {
+			if(!this.parent.program.contains(i)) {
+				conditionC = true;
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	
+	
 }
 
 

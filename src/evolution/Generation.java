@@ -33,7 +33,7 @@ public class Generation {
 			Phenotype p = Agent.getRandomPhenotype();
 			for(int agent=0; agent<Constants.GENERATION_SIZE; agent++)
 			{
-				String id = String.format("000:%0" + 4 + "d", agent);
+				String id = agent + "~"+ "XXX";
 
 				agents.add(new Agent(f,p,id));
 			}
@@ -67,6 +67,9 @@ public class Generation {
 		}
 		//sort at the end
 		this.sortAgents();
+		for(int i = 0; i < agents.size();i++) {
+			agents.get(i).setID(i);
+		}
 	}
 	
 	public List<Agent> getAgents()

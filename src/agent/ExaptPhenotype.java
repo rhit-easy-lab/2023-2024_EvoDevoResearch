@@ -60,18 +60,18 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 //
 //	double firstFitness = junctionA*stepSize1 - (downBranchNumber)*stepSize2;
 	double stepSize3 = (globalMax - localMin)/(upBranchNumber);
-	System.out.print("!" + stepSize2 + "!");
-	System.out.print("?" + localMin + "?");
-	System.out.print("..." + upBranchNumber + "...");
+//	System.out.print("!" + stepSize2 + "!");
+//	System.out.print("?" + localMin + "?");
+//	System.out.print("..." + upBranchNumber + "...");
 	//Makes upwards Branch
 	//upBranchNumber or upBranchNumber + 1?
 	for(int m = 1; m < upBranchNumber + 1; m++) {
 		List<Phenotype> neighbors3 = new ArrayList<Phenotype>();
 		double yta = localMin + (m)*stepSize3;
 		mainBranch.add(new ExaptPhenotype((mainBranch.size() - 1) + m, yta, neighbors3));
-		if(m == upBranchNumber) {
-			System.out.print("w" + yta + "w");
-		}
+//		if(m == upBranchNumber) {
+//			System.out.print("w" + yta + "w");
+//		}
 	}
 	mainBranch.get(0).getNeighbors().add(mainBranch.get(1));
 	//Makes the main branch of the graph (above); adds the neighbors (below) (If this doesn't work, possibly make the getNeighbors an arraylist and re-make ExaptPhenotype with the new neighbors?
