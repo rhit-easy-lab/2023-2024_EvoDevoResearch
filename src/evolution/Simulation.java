@@ -31,12 +31,14 @@ public class Simulation {
 	private ArrayList<Generation> generations = new ArrayList<>();
 	//Used to generate new generations
 	private SelectionStrategy selectionStrategy;
+	private int exaptNum;
 	
 	//keeps track of condition
 
 	
-	public Simulation()
+	public Simulation(int exaptNum)
 	{
+		this.exaptNum = exaptNum;
 		//Switch statement to control which fitness function is initialized
 		switch(Constants.FITNESS_FUNCTION_TYPE.toLowerCase()) {
 			case "nklandscape":
@@ -91,6 +93,27 @@ public class Simulation {
 	 */
 	public void runSimulation(int numGenerations)
 	{
+		
+		File file = new File("output/" + Constants.CONDITION_FILENAME + "_" + exaptNum + ".csv");
+		
+		file.getParentFile().mkdirs();
+		
+		PrintWriter out;
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+			return;
+		}
+		StringBuilder header = new StringBuilder();
+		header.append("Generation" + ",");
+		header.append("A" + ",");
+		header.append("B" + ",");
+		header.append("C" + ",");
+		header.replace(header.length()-1, header.length(), "\n");
+		out.print(header);
+		
 		for(int generationNumber = 1; generationNumber < numGenerations+1; generationNumber++)
 		{
 			//if enough generations have passed, invoke the fitness function's dynamic behavior
@@ -106,6 +129,10 @@ public class Simulation {
 			int condA = 0;
 			int condB = 0;
 			int condC = 0;
+			
+			int trackA = 0;
+			int trackB = 0;
+			int trackC = 0;
 			//detects conditions
 			for(Agent a: nextGeneration.getAgents()) {
 				
@@ -126,18 +153,51 @@ public class Simulation {
 					condC++;
 				}
 				
+				if(a.getOccuredA()) {
+					trackA++;
+				}
+				if(a.getOccuredB()) {
+					trackB++;
+				}
+				if(a.getOccuredC()) {
+					trackC++;
+				}
 				
 			}
 			
 			System.out.println("Condition A has been reached " + condA + " times");
 			System.out.println("Condition B has been reached " + condB + " times");
 			System.out.println("Condition C has been reached " + condC + " times");
+			
+			
+			//condition printing
+			
+			StringBuilder line = new StringBuilder();
+			double aPercent = (100 * trackA)/Constants.GENERATION_SIZE;
+			double bPercent = (100 * trackB)/Constants.GENERATION_SIZE;
+			double cPercent = (100 * trackC)/Constants.GENERATION_SIZE;
+			
+			line.append(generationNumber + ",");
+			line.append(aPercent + ",");
+			line.append(bPercent + ",");
+			line.append(cPercent + ",");
+			line.replace(line.length()-1, line.length(), "\n");
+			out.print(line);
+			
+			
+			
+			
 		}
 		if(Constants.FITNESS_FUNCTION_TYPE.toLowerCase().equals("exaptfitness")) {
 			
 			
+			
+			
+			
 			this.printLineage();
 		}
+		
+		out.close();
 		
 	}
 	
@@ -168,8 +228,13 @@ public class Simulation {
 	
 	//makes a filewriter, sets up a header and begins a recursive call
 	public void setUpPrinting(Agent guy) {
+		File file;
 
-		File file = new File("output/" + Constants.LINEAGE_FILENAME + ".csv");
+		if(exaptNum != -1)
+			file = new File("output/" + Constants.LINEAGE_FILENAME + "_" + exaptNum + ".csv");
+		else
+			file = new File("output/" + Constants.LINEAGE_FILENAME + ".csv");
+		
 		file.getParentFile().mkdirs();
 		
 		PrintWriter out;
@@ -232,5 +297,11 @@ public class Simulation {
 		System.out.println("Lineage written");
 		
 	}
+	
+	
 
 }
+
+
+
+

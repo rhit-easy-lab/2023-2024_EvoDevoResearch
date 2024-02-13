@@ -63,6 +63,10 @@ public class Agent implements Comparable<Agent> {
 	private boolean conditionB = false;
 	private boolean conditionC = false;
 	
+	private boolean occuredA = false;
+	private boolean occuredB = false;
+	private boolean occuredC = false;
+	
 	/**
 	 * Default constructor for Agent. Creates an agent with a random initial phenotype,
 	 * program, and blocks.
@@ -192,6 +196,10 @@ public class Agent implements Comparable<Agent> {
 		this.blocks = blocks;
 		this.parent = parent;
 		this.id = iD;
+		
+		this.occuredA = parent.occuredA;
+		this.occuredB = parent.occuredB;
+		this.occuredC = parent.occuredC;
 		//Compile the program and blocks into the strategy
 		this.compileStrategyAndInitializeHistory();
 	}
@@ -204,6 +212,11 @@ public class Agent implements Comparable<Agent> {
 		this.program = program;
 		this.blocks = blocks;
 		this.parent = parent;
+		
+		this.occuredA = parent.occuredA;
+		this.occuredB = parent.occuredB;
+		this.occuredC = parent.occuredC;
+		
 		this.id = "none";
 		//Compile the program and blocks into the strategy
 		this.compileStrategyAndInitializeHistory();
@@ -843,6 +856,7 @@ public class Agent implements Comparable<Agent> {
 		
 		if(childNum > parentNum) {
 			this.conditionA = true;
+			this.occuredA = true;
 			return true;
 		} else {
 			return false;
@@ -867,24 +881,38 @@ public class Agent implements Comparable<Agent> {
 			int childCount = 0;
 			int parentCount = 0;
 			
+			
 			int childDirection = 0;
 			int parentDirection = 0;
+			
+			String childDir = "";
+			String parentDir = "";
 			
 			for(Step s: childList.get(i)) {
 				switch(s) {
 				case RandomWalk:
 					childDirection = 0;
+					childDir = childDir + " ";
 					break;
 				case SteepestClimb:
 					childCount++;
 					childDirection = 1;
+					childDir = childDir + "+";
 					break;
 				case SteepestFall:
 					childCount--;
 					childDirection = -1;
+					childDir = childDir + "-";
 					break;
 				case SameStep:
 					childCount += childDirection;
+					if(childDirection == 1) {
+						childDir = childDir + "+";
+					} else if (childDirection == -1) {
+						childDir = childDir + "-";
+					} else {
+						childDir = childDir + " ";
+					}
 					break;
 				}
 			}
@@ -893,26 +921,41 @@ public class Agent implements Comparable<Agent> {
 				switch(s) {
 				case RandomWalk:
 					parentDirection = 0;
+					parentDir = parentDir + " ";
 					break;
 				case SteepestClimb:
 					parentCount++;
 					parentDirection = 1;
+					parentDir = parentDir + "+";
 					break;
 				case SteepestFall:
 					parentCount--;
 					parentDirection = -1;
+					parentDir = parentDir + "-";
 					break;
 				case SameStep:
 					parentCount += parentDirection;
+					if(parentDirection == 1) {
+						parentDir = parentDir + "+";
+					} else if (parentDirection == -1) {
+						parentDir = parentDir + "-";
+					} else {
+						parentDir = parentDir + " ";
+					}
 					break;
 				}
 			}
 			
 			
 			if(childCount != parentCount) {
+				this.occuredB = true;
 				conditionB = true;
 				mutation = true;
-			} 
+			} else if(!childDir.equals(parentDir)) {
+				this.occuredB = true;
+				conditionB = true;
+				mutation = true;
+			}
 		}
 		
 		return mutation;
@@ -925,7 +968,8 @@ public class Agent implements Comparable<Agent> {
 	public boolean detectReintroduction() {
 		for(int i: program) {
 			if(!this.parent.program.contains(i)) {
-				conditionC = true;
+				this.occuredC = true;
+				this.conditionC = true;
 				return true;
 			}
 		}
@@ -933,6 +977,18 @@ public class Agent implements Comparable<Agent> {
 		
 	}
 	
+	public boolean getOccuredA() {
+		return occuredA;
+	}
+	
+	public boolean getOccuredB() {
+		return occuredB;
+	}
+
+	public boolean getOccuredC() {
+		return occuredC;
+	}
+
 	
 	
 }

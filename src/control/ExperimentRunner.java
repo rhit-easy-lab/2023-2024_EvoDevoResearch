@@ -18,10 +18,17 @@ public class ExperimentRunner {
 	{
 		//The first argument passed into ExperimentRunner is the configuration file.
 		//If no configuration file is specified, it runs using defaultConfig.properties
+		
+		int exaptFile = -1;
 		if(args.length>=1)
 		{
 			System.out.println("Using the configuration file: " + args[0]);
 			PropParser.load(args[0]);
+			//for multiple runs
+			if(args.length >= 2) { 
+				
+				exaptFile = Integer.parseInt(args[1]);
+			}
 		}
 		else
 		{
@@ -37,7 +44,7 @@ public class ExperimentRunner {
 		long startTime = System.currentTimeMillis()/1000;
 		for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
 		{
-			Simulation sim = new Simulation();
+			Simulation sim = new Simulation(exaptFile);
 			sim.runSimulation();
 			writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
 			
