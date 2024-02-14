@@ -22,10 +22,16 @@ public class ExperimentRunner {
 		//The first argument passed into ExperimentRunner is the configuration file.
 		//If no configuration file is specified, it runs using defaultConfig.properties
 		
+		int exaptFile = -1;
 		if(args.length>=1)
 		{
 			System.out.println("Using the configuration file: " + args[0]);
 			PropParser.load(args[0]);
+			//for multiple runs
+			if(args.length >= 2) { 
+				
+				exaptFile = Integer.parseInt(args[1]);
+			}
 		}
 		else
 		{
@@ -94,7 +100,19 @@ public class ExperimentRunner {
 					long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
 					System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);
 				}
-			}
+			} else if(Constants.STATE == 7){
+				for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++){
+					Simulation sim = new Simulation(exaptFile);
+						sim.runSimulation();
+						writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
+						
+						long endTime = System.currentTimeMillis()/1000;
+						long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
+						System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);
+
+					}
+
+				}
 			}
 		writer.closePrintWriter();
 		}

@@ -21,15 +21,7 @@ public class Constants {
 	public static final int GENERATIONS_PER_CYCLE = Integer.parseInt(PropParser.getProperty("generationsPerCycle"));
 	public static final Boolean SINGLE_START = Boolean.parseBoolean(PropParser.getProperty("singleStart"));
 
-	//Exapt Landscape Constants
-	public static final int MAIN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("mainBranchNumber"));
-	public static final double LOCAL_MAX = Double.parseDouble(PropParser.getProperty("localMax"));
-	public static final double GLOBAL_MAX = Double.parseDouble(PropParser.getProperty("globalMax"));
-	public static final int JUNCTION = Integer.parseInt(PropParser.getProperty("junction"));
-	public static final double LOCAL_MIN = Double.parseDouble(PropParser.getProperty("localMin"));
-	public static final int DOWN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("downBranchNumber"));
-	public static final int UP_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("upBranchNumber"));
-	
+		
 //	Evolution Constants
 	public static final int NUM_GENERATIONS = Integer.parseInt(PropParser.getProperty("numGenerations"));
 	public static final int GENERATION_SIZE = Integer.parseInt(PropParser.getProperty("generationSize"));
@@ -66,4 +58,16 @@ public class Constants {
 	public static final int NUMBER_OF_BLOCKS = Integer.parseInt(PropParser.getProperty("numberOfBlocks"));
 	public static final int STATE = Integer.parseInt(PropParser.getProperty("state"));
 	public static final int POTENTIATION_TYPE = Integer.parseInt(PropParser.getProperty("potentiationType"));
+	
+ // Exapation Constants
+	public static final int MAIN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("mainBranchNumber"));
+	public static final double LOCAL_MAX = Double.parseDouble(PropParser.getProperty("localMax"));
+	public static final double GLOBAL_MAX = Double.parseDouble(PropParser.getProperty("globalMax"));
+	public static final int JUNCTION_NUM = Integer.parseInt(PropParser.getProperty("junctionNum"));
+	public static final int LOCAL_MIN = Integer.parseInt(PropParser.getProperty("localMin"));
+	public static final int DOWN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("downBranchNumber"));
+	public static final int UP_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("upBranchNumber"));
+	public static final String LINEAGE_FILENAME = PropParser.getProperty("lineageFile");
+	public static final String CONDITION_FILENAME = PropParser.getProperty("conditionFile");
+	
 }

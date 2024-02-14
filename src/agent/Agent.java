@@ -1,9 +1,12 @@
 
 package agent;
 
+import java.io.PrintWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import control.ExperimentWriter;
 import control.Constants;
 import control.SeededRandom;
 import evolution.Generation;
@@ -25,6 +28,8 @@ import evolution.Generation;
 public class Agent implements Comparable<Agent> {
 	//Fields related to evolutionary past
 	private Agent parent = null;
+	private String id = null;
+	//Id should be {genNum}:{specificId} 
 	
 	//Fields related to developmental strategy
 	private List<Integer> program;
@@ -54,6 +59,16 @@ public class Agent implements Comparable<Agent> {
 	private List<Double> fitnessHistory;
 	private List<Step> stepList = new ArrayList<Step>();
 	private List<String> stringList = new ArrayList<String>();
+	
+	
+	//Fields related to conditions
+	private boolean conditionA = false;
+	private boolean conditionB = false;
+	private boolean conditionC = false;
+	
+	private boolean occuredA = false;
+	private boolean occuredB = false;
+	private boolean occuredC = false;
 	
 	/**
 	 * Default constructor for Agent. Creates an agent with a random initial phenotype,
@@ -166,11 +181,22 @@ public class Agent implements Comparable<Agent> {
 	 * 
 	 * @param fitnessFunction FitnessFunction for the agent to operate on
 	 */
+	public Agent(FitnessFunction fitnessFunction, Phenotype p, String id)
+	{
+		this(fitnessFunction);
+		
+		//Set our phenotype to the given one. Make a copy so we don't have a ton of agents linked to the same phenotype
+		this.id = id;
+		this.phenotype = p.getIdenticalCopy();
+		this.compileStrategyAndInitializeHistory();
+	}
+	
 	public Agent(FitnessFunction fitnessFunction, Phenotype p)
 	{
 		this(fitnessFunction);
 
 		//Set our phenotype to the given one. Make a copy so we don't have a ton of agents linked to the same phenotype
+		this.id = "none";
 		this.phenotype = p.getIdenticalCopy();
 		this.compileStrategyAndInitializeHistory();
 	}
@@ -179,6 +205,22 @@ public class Agent implements Comparable<Agent> {
 	 * Constructor used to exactly specify an agent, with all relevant fields. 
 	 * Mostly called by the identicalChild() function.
 	 */
+	public Agent(FitnessFunction fitnessFunction, Phenotype phenotype, List<Integer> program, List<List<Step>> blocks, Agent parent, String iD)
+	{
+		this.phenotype = phenotype;
+		this.fitnessFunction = fitnessFunction;
+		this.fitness = fitnessFunction.getFitness(phenotype);
+		this.program = program;
+		this.blocks = blocks;
+		this.parent = parent;
+		this.id = iD;
+		
+		this.occuredA = parent.occuredA;
+		this.occuredB = parent.occuredB;
+		this.occuredC = parent.occuredC;
+		//Compile the program and blocks into the strategy
+		this.compileStrategyAndInitializeHistory();
+	}
 	
 	public Agent(FitnessFunction fitnessFunction, Phenotype phenotype, List<Integer> program, List<List<Step>> blocks, Agent parent)
 	{
@@ -188,6 +230,12 @@ public class Agent implements Comparable<Agent> {
 		this.program = program;
 		this.blocks = blocks;
 		this.parent = parent;
+		
+		this.occuredA = parent.occuredA;
+		this.occuredB = parent.occuredB;
+		this.occuredC = parent.occuredC;
+		
+		this.id = "none";
 		//Compile the program and blocks into the strategy
 		this.compileStrategyAndInitializeHistory();
 	}
@@ -200,12 +248,19 @@ public class Agent implements Comparable<Agent> {
 				return new NKPhenotypeFast();
 			case "exaptphenotype":
 				//Exaptation Landscape
-				return new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(Constants.MAIN_BRANCH_NUMBER, Constants.LOCAL_MAX, Constants.GLOBAL_MAX, Constants.JUNCTION, Constants.LOCAL_MIN, Constants.DOWN_BRANCH_NUMBER, Constants.UP_BRANCH_NUMBER));
+				
+				return new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(Constants.MAIN_BRANCH_NUMBER, 
+						Constants.LOCAL_MAX, Constants.GLOBAL_MAX, Constants.JUNCTION_NUM, Constants.LOCAL_MIN, 
+						Constants.DOWN_BRANCH_NUMBER, Constants.UP_BRANCH_NUMBER));
 			default:
 				System.out.println("PHENOTYPE_TYPE not recognized");
 				return null;
 		}
 	}
+	
+	
+	
+
 	
 	/**
 	 * This method compiles the developmental strategy from the program and
@@ -459,8 +514,18 @@ public class Agent implements Comparable<Agent> {
 		
 		Phenotype childPhenotype = phenotype.getIdenticalCopy();
 		
+		
+		//generates a unique ID
+//		String genNum = this.id.substring(0, 3);
+//		int num = Integer.parseInt(genNum);
+//		num = num + 1;
+		int index  = this.id.indexOf('~');
+		String specID = this.id.substring(index+1);
+		String beginning = this.id.substring(0, index);
+		String childID = "XXXX" + "~" + beginning;
+
 		//Use the constructor to make the new agent, and return it
-		return new Agent(fitnessFunction, childPhenotype, childProgram, childBlocks, this);
+		return new Agent(fitnessFunction, childPhenotype, childProgram, childBlocks, this, childID);
 	}
 	
 	/**
@@ -720,6 +785,264 @@ public class Agent implements Comparable<Agent> {
 			return null;
 		}
 	}
+	
+	public String getID() {
+		return this.id;
+	}
+	
+	
+	public void printLineage(PrintWriter out, int simulationNum, int genIndex) {
+		StringBuilder line = new StringBuilder();
+		
+		// Simulation
+		line.append(simulationNum+",");
+
+		// Generation
+		line.append(ExperimentWriter.toCSVDelimited(genIndex+""));
+		
+		// Final Fitness
+		line.append(""+this.getFinalFitness()+',');
+
+		// Agent Number
+		line.append(this.getID()+",");
+		
+		// Reached Condition A
+		line.append(this.conditionA+",");
+		
+		// Condition B
+		line.append(this.conditionB+",");
+		
+		//Condition C
+		line.append(this.conditionC+",");
+		
+		
+		
+		
+		if(true) {
+			line.append(ExperimentWriter.toCSVDelimited(Constants.FITNESS_FUNCTION_TYPE));//TODO make this better so that it can include more details
+		}
+		
+		//spacing
+		line.append(" ,");
+		
+
+		List<List<Step>> tableBlocks = this.getBlocks();
+		for(int i = 0;i < Constants.UPPER_NUMBER_OF_BLOCKS; i++) {
+			StringBuilder sb = new StringBuilder();
+			if(i < tableBlocks.size()) {
+				List<Step> block = tableBlocks.get(i);
+				for(Step s : block) {
+					line.append(s.toString() + ",");
+				}
+
+			}else {
+
+				for(int j = 0; j < Constants.BLOCK_LENGTH; j++) {
+					line.append("X,");
+				}
+
+			}
+			
+			line.append(" ,");
+
+		}
+		
+		if(true) {
+			StringBuilder sb = new StringBuilder();
+			if(Constants.PROGRAM_LENGTH > 0)
+			{
+			for(Integer block : this.getProgram()) {
+				line.append(block);
+				line.append(",");
+			}
+
+			}
+
+		}
+		
+
+		
+	
+
+		
+		
+
+		
+		
+//			line.append("PLACEHOLDER,"); // TODO replace with actual parent number
+		
+		
+		line.replace(line.length()-1, line.length(), "\n"); // replace the extra comma with a next line
+		out.print(line);
+		if(this.parent != null)
+			this.parent.printLineage(out, simulationNum, genIndex-1);
+		else
+			return;
+		
+	}
+	
+	public boolean exaptBest() {
+		return this.getFinalFitness()==23;
+	}
+	
+	public void setID(int indivNum) {
+		
+		int index  = this.id.indexOf('~');
+		String specID = this.id.substring(index+1);
+		String childID = "XXXX" + "~"+ specID;
+		
+		String newID = indivNum + "~" + specID;
+		this.id = newID;
+		
+	}
+	
+	
+	//Condition A
+	//Should detect when a block is copied, as child will have a bigger number of blocks.
+	public boolean detectCopy() {
+		if(parent == null)
+			return false;
+		
+		int parentNum = this.parent.getBlocks().size();
+		int childNum = this.getBlocks().size();
+		
+		if(childNum > parentNum) {
+			this.conditionA = true;
+			this.occuredA = true;
+			return true;
+		} else {
+			return false;
+		}
+		
+	}
+	
+	//Condition B
+	// should detect when one of the blocks acquires a mutation that changes the function.
+	public boolean detectFunctionalMutation() {
+		
+		List<List<Step>> childList = this.getBlocks();
+		List<List<Step>> parentList = this.parent.getBlocks();
+		
+		boolean mutation = false;;
+		
+		if(childList.size() > parentList.size())
+			return false;
+		
+		//we want to go through each block, and each step in each block, and see if the function changes
+		for(int i = 0; i < childList.size(); i++) {
+			int childCount = 0;
+			int parentCount = 0;
+			
+			
+			int childDirection = 0;
+			int parentDirection = 0;
+			
+			String childDir = "";
+			String parentDir = "";
+			
+			for(Step s: childList.get(i)) {
+				switch(s) {
+				case RandomWalk:
+					childDirection = 0;
+					childDir = childDir + " ";
+					break;
+				case SteepestClimb:
+					childCount++;
+					childDirection = 1;
+					childDir = childDir + "+";
+					break;
+				case SteepestFall:
+					childCount--;
+					childDirection = -1;
+					childDir = childDir + "-";
+					break;
+				case SameStep:
+					childCount += childDirection;
+					if(childDirection == 1) {
+						childDir = childDir + "+";
+					} else if (childDirection == -1) {
+						childDir = childDir + "-";
+					} else {
+						childDir = childDir + " ";
+					}
+					break;
+				}
+			}
+			
+			for(Step s: parentList.get(i)) {
+				switch(s) {
+				case RandomWalk:
+					parentDirection = 0;
+					parentDir = parentDir + " ";
+					break;
+				case SteepestClimb:
+					parentCount++;
+					parentDirection = 1;
+					parentDir = parentDir + "+";
+					break;
+				case SteepestFall:
+					parentCount--;
+					parentDirection = -1;
+					parentDir = parentDir + "-";
+					break;
+				case SameStep:
+					parentCount += parentDirection;
+					if(parentDirection == 1) {
+						parentDir = parentDir + "+";
+					} else if (parentDirection == -1) {
+						parentDir = parentDir + "-";
+					} else {
+						parentDir = parentDir + " ";
+					}
+					break;
+				}
+			}
+			
+			
+			if(childCount != parentCount) {
+				this.occuredB = true;
+				conditionB = true;
+				mutation = true;
+			} else if(!childDir.equals(parentDir)) {
+				this.occuredB = true;
+				conditionB = true;
+				mutation = true;
+			}
+		}
+		
+		return mutation;
+	
+	}
+	
+	
+	//Condition C
+	//detects when a new block is introduced into the plan
+	public boolean detectReintroduction() {
+		for(int i: program) {
+			if(!this.parent.program.contains(i)) {
+				this.occuredC = true;
+				this.conditionC = true;
+				return true;
+			}
+		}
+		return false;
+		
+	}
+	
+	public boolean getOccuredA() {
+		return occuredA;
+	}
+	
+	public boolean getOccuredB() {
+		return occuredB;
+	}
+
+	public boolean getOccuredC() {
+		return occuredC;
+	}
+
+	
+	
 }
 
 
