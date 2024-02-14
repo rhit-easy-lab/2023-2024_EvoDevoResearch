@@ -2,7 +2,9 @@ package evolution;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import agent.Agent;
 import control.Constants;
 import control.SeededRandom;
 import landscape.ExaptFitness;
@@ -69,6 +71,7 @@ public class Simulation {
 		generations.add(initialGeneration);
 	}
 	
+	
 	public void runSimulation()
 	{
 		runSimulation(Constants.NUM_GENERATIONS);
@@ -79,6 +82,7 @@ public class Simulation {
 	 * 
 	 * @param numGenerations number of generations in evolutionary loop
 	 */
+	
 	public void runSimulation(int numGenerations)
 	{
 		for(int generationNumber = 1; generationNumber < numGenerations+1; generationNumber++)
@@ -94,9 +98,35 @@ public class Simulation {
 			generations.add(nextGeneration);
 		}
 	}
+//** Should run the simulation starting from the starting generation number passed in.
+	public void reRunSimulation(int startGenNum, int numGenerations)
+	{
+		for(int generationNumber = startGenNum; generationNumber < numGenerations; generationNumber++)
+		{
+			//if enough generations have passed, invoke the fitness function's dynamic behavior
+			if(Constants.GENERATIONS_PER_CYCLE % Constants.GENERATIONS_PER_CYCLE == 0)
+			{
+				fitFunction.changeCycle();
+			}
+			//make and run the next generation
+			Generation nextGeneration = selectionStrategy.getNextGeneration(generations.get(generations.size()-1));
+			nextGeneration.executeAllStrategies();
+			generations.add(nextGeneration);
+		}
+	}
 	
 	public ArrayList<Generation> getGenerations() {
 		return generations;
+	}
+	public double getFinalFitness(){
+		List<Agent> agentList = generations.get(generations.size()-1).getAgents();
+		double fitnessFirst = 0;
+		for(int t=0; t < agentList.size();t++) {
+			if(agentList.get(t).getFinalFitness() > fitnessFirst) {
+				fitnessFirst = agentList.get(t).getFinalFitness();
+			}
+		}
+		return fitnessFirst;
 	}
 
 }

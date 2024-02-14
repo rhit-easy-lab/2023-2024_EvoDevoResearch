@@ -20,7 +20,7 @@ import landscape.FitnessFunction;
 public class Generation {
 	
 	private List<Agent> agents;
-	
+	public static int genNum = 0;
 	/**
 	 * Constructor that creates a random generation of agents
 	 * @param f
@@ -51,9 +51,12 @@ public class Generation {
 	 */
 	public Generation(List<Agent> agents)
 	{
+		genNum++;
 		this.agents = agents;
 	}
-	
+	public static int returnCounter() {
+		return genNum;
+	}
 	/**
 	 * Runs each agent's strategy
 	 */

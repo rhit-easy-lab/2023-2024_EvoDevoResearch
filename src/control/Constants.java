@@ -20,18 +20,36 @@ public class Constants {
 	public static final int K = Integer.parseInt(PropParser.getProperty("K"));
 	public static final int GENERATIONS_PER_CYCLE = Integer.parseInt(PropParser.getProperty("generationsPerCycle"));
 	public static final Boolean SINGLE_START = Boolean.parseBoolean(PropParser.getProperty("singleStart"));
-	 
+
+	//Exapt Landscape Constants
+	public static final int MAIN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("mainBranchNumber"));
+	public static final double LOCAL_MAX = Double.parseDouble(PropParser.getProperty("localMax"));
+	public static final double GLOBAL_MAX = Double.parseDouble(PropParser.getProperty("globalMax"));
+	public static final int JUNCTION = Integer.parseInt(PropParser.getProperty("junction"));
+	public static final double LOCAL_MIN = Double.parseDouble(PropParser.getProperty("localMin"));
+	public static final int DOWN_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("downBranchNumber"));
+	public static final int UP_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("upBranchNumber"));
+	
 //	Evolution Constants
 	public static final int NUM_GENERATIONS = Integer.parseInt(PropParser.getProperty("numGenerations"));
 	public static final int GENERATION_SIZE = Integer.parseInt(PropParser.getProperty("generationSize"));
+	//new
+	public static final int GEN_STOP_NUM = Integer.parseInt(PropParser.getProperty("generationStoppingNumber"));
 	public static final double PHENOTYPE_MUTATION_RATE = Double.parseDouble(PropParser.getProperty("phenotypeMutationRate"));
 	public static final double BLOCK_MUTATION_RATE = Double.parseDouble(PropParser.getProperty("blockMutationRate"));
 	public static final double PROGRAM_MUTATION_RATE = Double.parseDouble(PropParser.getProperty("programMutationRate"));
 	//New
 	public static final double BLOCK_COPY_RATE = Double.parseDouble(PropParser.getProperty("blockCopyRate"));
+	public static final int POTENTIATION_RUN_NUM = Integer.parseInt(PropParser.getProperty("potentiationRunNum"));
+	public static final int CONSTANT_POTENTIATION_RUN_NUM = Integer.parseInt(PropParser.getProperty("constantPotentiationRunNum"));
+	//Potentiation stuff 
+	public static final int STEP_SIZE_NUM = Integer.parseInt(PropParser.getProperty("stepSizeNum"));
+	public static final String POTENTIATION_FILENAME = PropParser.getProperty("potentiationFilename");
+	public static final String INPUT_FILENAME = PropParser.getProperty("inputFilename");
 	
 //	Selection Constants
 	public static final String SELECTION_TYPE = PropParser.getProperty("selectionType");
+	public static final String RERUN_SELECTION_TYPE = PropParser.getProperty("rerunSelectionType");
 	public static final int ELITISM_QUANTITY = Integer.parseInt(PropParser.getProperty("elitismQuantity"));
 	public static final int TOURNAMENT_SIZE = Integer.parseInt(PropParser.getProperty("tournamentSize"));
 	
@@ -43,6 +61,9 @@ public class Constants {
 	public static final int UPPER_NUMBER_OF_BLOCKS = Integer.parseInt(PropParser.getProperty("upperNumberOfBlocks"));
 	public static final double WEIGHT_OF_SAMESTEP = Double.parseDouble(PropParser.getProperty("weightOfSameStep"));
 	//EndNew
-	
+	public static final int EARLY_STOP_GEN_NUM = Integer.parseInt(PropParser.getProperty("earlyStopGenNum"));
+	public static final String ZOOM_IN_FILE_NAME = PropParser.getProperty("zoomInFileName");
 	public static final int NUMBER_OF_BLOCKS = Integer.parseInt(PropParser.getProperty("numberOfBlocks"));
+	public static final int STATE = Integer.parseInt(PropParser.getProperty("state"));
+	public static final int POTENTIATION_TYPE = Integer.parseInt(PropParser.getProperty("potentiationType"));
 }

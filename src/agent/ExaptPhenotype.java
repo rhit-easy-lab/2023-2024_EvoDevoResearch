@@ -7,6 +7,7 @@ public class ExaptPhenotype extends Phenotype{
 	private List<Phenotype> neighbors;
 	private int nodeNumber;
 	private double fitness;
+	private int tracking = 1;
 	public ExaptPhenotype(int nodenumber1, double fitness1, List<Phenotype> neighbors1) {
 		this.neighbors = neighbors1;
 		this.nodeNumber = nodenumber1;
@@ -16,6 +17,7 @@ public class ExaptPhenotype extends Phenotype{
 		this.nodeNumber = pheno.getNumber();
 		this.fitness = pheno.getFitness();
 		this.neighbors = pheno.getNeighbors();
+		this.tracking = tracking+1;
 	}
 
 	
@@ -30,7 +32,7 @@ public class ExaptPhenotype extends Phenotype{
 	//The multipliers on the fitness are incorrect as of now for testing purposes on the down and up branches
 	
 
-public static Phenotype getFirst(int mainbranchNumber, double localMax, double globalMax, int junction1, int localMin, int downBranchNumber, int upBranchNumber) {
+public static Phenotype getFirst(int mainbranchNumber, double localMax, double globalMax, int junction1, double localMin, int downBranchNumber, int upBranchNumber) {
 	List<Phenotype> mainBranch = new ArrayList<Phenotype>();
 	List<ArrayList<Phenotype>> edges = new ArrayList<ArrayList<Phenotype>>();
 	double stepSize1 = localMax/(mainbranchNumber - 1);
@@ -58,18 +60,13 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 //
 //	double firstFitness = junctionA*stepSize1 - (downBranchNumber)*stepSize2;
 	double stepSize3 = (globalMax - localMin)/(upBranchNumber);
-	System.out.print("!" + stepSize2 + "!");
-	System.out.print("?" + localMin + "?");
-	System.out.print("..." + upBranchNumber + "...");
 	//Makes upwards Branch
 	//upBranchNumber or upBranchNumber + 1?
 	for(int m = 1; m < upBranchNumber + 1; m++) {
 		List<Phenotype> neighbors3 = new ArrayList<Phenotype>();
 		double yta = localMin + (m)*stepSize3;
 		mainBranch.add(new ExaptPhenotype((mainBranch.size() - 1) + m, yta, neighbors3));
-		if(m == upBranchNumber) {
-			System.out.print("w" + yta + "w");
-		}
+
 	}
 	mainBranch.get(0).getNeighbors().add(mainBranch.get(1));
 	//Makes the main branch of the graph (above); adds the neighbors (below) (If this doesn't work, possibly make the getNeighbors an arraylist and re-make ExaptPhenotype with the new neighbors?
@@ -142,7 +139,7 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 //		}
 //	}
 //	System.out.print(mainBranch.size() + "L");
-	//Testing end
+	//Testing 
 	return mainBranch.get(0);
 	
 }
@@ -168,7 +165,9 @@ public Phenotype getIdenticalCopy() {
 public int getNumber() {
 	return this.nodeNumber;
 }
-
+public int tracker() {
+	return this.tracking;
+}
 @Override
 public void mutate() {
 	// TODO Auto-generated method stub

@@ -26,6 +26,9 @@ public class ExperimentWriter {
 		this(Constants.FILENAME,Constants.WRITER_PARAMS);
 		
 	}
+	public ExperimentWriter(String name) throws IOException {
+		this(name, Constants.WRITER_PARAMS);
+	}
 	
 	/**
 	 * Constructor for the Experiment Writer which outputs experimental results to a CSV file at the specified filename
@@ -113,6 +116,9 @@ public class ExperimentWriter {
 		if(params.contains("parent")) {
 			line.append("Parent_number,");
 		}
+		if(params.contains("pheno")) {
+			line.append("Phenotype");
+		}
 		
 		
 		line.replace(line.length()-1, line.length(), "\n"); //replace the extra comma with a next line
@@ -145,7 +151,8 @@ public class ExperimentWriter {
 	 */
 	public void writeSim(Simulation sim, int gen_spacing, boolean requireLast) {
 		List<Generation> gens = sim.getGenerations();
-		simulationNum++;
+		//simulationNum++;
+		simulationNum = simulationNum++;
 		for(int i = 0; i<gens.size(); i+= gen_spacing) {
 			writeGen(gens.get(i),""+i);
 		}
@@ -178,6 +185,7 @@ public class ExperimentWriter {
 		writeGen(gen,genIndex,agent_numbers);
 	}
 	
+
 	/**
 	 * Writes a singular Generation to the CSV file
 	 * genIndex is a string rather than integer to allow for extra-evolutionary generation runs
@@ -196,7 +204,7 @@ public class ExperimentWriter {
 			line.append(simulationNum+",");
 
 			// Generation
-			line.append(toCSVDelimited(genIndex));
+			line.append(toCSVDelimited((genIndex)));
 
 			// Agent Number
 			line.append(num+",");
@@ -213,9 +221,9 @@ public class ExperimentWriter {
 					sb.append("{");
 					for(Step s : block) {
 						sb.append(s.toString());
-						sb.append(",");
+						sb.append(":");
 					}
-					sb.replace(sb.length()-1, sb.length(), "},"); // replace extra comma with closing bracket and separating comma
+					sb.replace(sb.length()-1, sb.length(), "};"); // replace extra comma with closing bracket and separating comma
 				}
 				sb.deleteCharAt(sb.length()-1); // remove extra comma
 				line.append(toCSVDelimited(sb.toString()));
@@ -226,21 +234,47 @@ public class ExperimentWriter {
 				{
 				for(Integer block : agent.getProgram()) {
 					sb.append(block);
-					sb.append(",");
+					sb.append("|");
 				}
 				sb.deleteCharAt(sb.length()-1); // remove extra comma
 				}
 				line.append(toCSVDelimited(sb.toString()));
 			}
 			if(params.contains("strategy")) {
-				line.append(toCSVDelimited(agent.getStrategy().toString()));
-			}
+//				line.append(toCSVDelimited(agent.getStrategy().toString()));
+				List<Step> strat = agent.getStrategy();
+				String not = "";
+				for(int k = 0; k < strat.size(); k++) {
+					if(k != strat.size() - 1) {
+						not = not + strat.get(k).toString() + "|";
+					}else {
+						not = not + strat.get(k).toString();
+					}
+					
+				}
+				line.append(toCSVDelimited(not));
+				}
 			if(params.contains("final fitness")) {
-				line.append(""+agent.getFinalFitness()+',');
+				line.append(""+agent.getFinalFitness());
 			}
+
+//			if(params.contains("pheno")) {
+//				line.append(","+agent.getPheno()+',');
+//			}
+			if(params.contains("node number")) {
+				line.append(","+agent.getPheno().getNumber()+',');
+			}
+//			if(params.contains("node neighbors")) {
+//				line.append(",");
+//				for(int k = 0; k < agent.getPheno().getNeighbors().size(); k++) {
+//					line.append(agent.getPheno().getNeighbors().get(k).getNumber()+"|");
+//				}
+//				line.append(',');
+//			}
 			if(params.contains("fitnesses")) {
 				line.append(toCSVDelimited(agent.getFitnessHistory().toString()));
 			}
+		
 			if(params.contains("fitness history")) {
 				line.append("PLACEHOLDER,"); // TODO replace with actual parent number
 			}
