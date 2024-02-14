@@ -17,7 +17,7 @@ import control.SeededRandom;
  */
 public enum Step {
 	//List all steps supported by the simulator
-	RandomWalk, SteepestClimb, SteepestFall;
+	RandomWalk, SteepestClimb, SteepestFall, SameStep;
 	
 	//List of all steps currently in use, as specified by the config file
 	public static final List<Step> validSteps = Collections.unmodifiableList(getValidSteps());
@@ -35,6 +35,8 @@ public enum Step {
 		{
 			validSteps.add(Step.valueOf(step));
 		}
+		validSteps.add(Step.valueOf("SameStep"));
+		validSteps.add(Step.valueOf("SameStep"));
 		return validSteps;
 	}
 	

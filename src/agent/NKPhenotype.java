@@ -147,4 +147,12 @@ public class NKPhenotype extends Phenotype {
 			bitstring[index]=0;
 		}
 	}
+	//Stand in for phenotype
+	public int getNumber() {
+		return 0;
+		
+	}
+	public int tracker() {
+		return 0;
+	}
 }
