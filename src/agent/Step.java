@@ -35,6 +35,8 @@ public enum Step {
 		{
 			validSteps.add(Step.valueOf(step));
 		}
+		validSteps.add(Step.valueOf("SameStep"));
+		validSteps.add(Step.valueOf("SameStep"));
 		return validSteps;
 	}
 	
