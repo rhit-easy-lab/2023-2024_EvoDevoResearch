@@ -165,11 +165,12 @@ public class Agent implements Comparable<Agent> {
 	 * @param program
 	 * @param fitness
 	 */
-	public Agent(FitnessFunction fitnessFunction, List<List<Step>> blocks, List<Integer> program) {
+	public Agent(FitnessFunction fitnessFunction, List<List<Step>> blocks, String iD, List<Integer> program) {
 		this.phenotype = Agent.getRandomPhenotype();
 		this.fitness = fitnessFunction.getFitness(this.phenotype);
 		this.fitnessFunction = fitnessFunction;
 		this.program = program;
+		this.id = iD;
 		this.blocks = blocks;
 		this.compileStrategyAndInitializeHistory();
 	}

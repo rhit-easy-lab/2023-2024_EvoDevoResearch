@@ -41,11 +41,15 @@ public class ExperimentReader {
 	public static int readAgents(String file, int stoppingGenNum) throws IOException {
 
 		String[] totalGens = ReadColumnCSV.readCol(1, file, ",");
+		String[] agentNums = ReadColumnCSV.readCol(2, file, ",");
+		String[] function = ReadColumnCSV.readCol(4, file, ",");
+		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
+		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
+		String[] parentNum = ReadColumnCSV.readCol(9, file, ",");
 		//Total number of generations
 		int totalGenNum = Integer.parseInt(totalGens[1]);
 		int resumeNum = totalGenNum+1;
 		//Column Reading works
-		String[] function = ReadColumnCSV.readCol(4, file, ",");
 		String functionString = function[1].toLowerCase();
 		FitnessFunction fitFunction = null;
 		if(functionString.equals("nklandscape")) {
@@ -72,12 +76,11 @@ public class ExperimentReader {
 			}
 		}
 		
-		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
-		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
+		
 
 		List programList = getProgramNew(programCurrent);
 		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
-		ArrayList<Agent> agList = generateNewAgents(programList, blockyList, fitFunction);
+		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
 		Generation gen30 = getNewGen(agList);
 //		System.out.println(resumeNum);
 	//	ExperimentWriter writer = new ExperimentWriter();
@@ -121,6 +124,7 @@ public class ExperimentReader {
 	public static void advanceStep(String file, int stoppingGenNum) throws IOException {
 
 		String[] totalGens = ReadColumnCSV.readCol(1, file, ",");
+		String[] agentNums = ReadColumnCSV.readCol(2, file, ",");
 		int totalGenNum = Integer.parseInt(totalGens[1]);
 		int resumeNum = totalGenNum+1;
 		String[] function = ReadColumnCSV.readCol(4, file, ",");
@@ -155,7 +159,7 @@ public class ExperimentReader {
 
 		List programList = getProgramNew(programCurrent);
 		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
-		ArrayList<Agent> agList = generateNewAgents(programList, blockyList, fitFunction);
+		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
 		Generation gen30 = getNewGen(agList);
 //		System.out.println(resumeNum);
 		ExperimentWriter writer = new ExperimentWriter();
@@ -182,11 +186,11 @@ public class ExperimentReader {
 		
 	}
 	//Re-start simulation at our new generation starting number, instantiate more agents with the programs and blocks
-	public static ArrayList<Agent> generateNewAgents(List<List<Integer>> listProgram, List<List<List<Step>>> listBlocks, FitnessFunction fittyFunc) {
+	public static ArrayList<Agent> generateNewAgents(String[] agentIDs, List<List<Integer>> listProgram, List<List<List<Step>>> listBlocks, FitnessFunction fittyFunc) {
 		ArrayList<Agent> agy = new ArrayList<Agent>();
 		//Just exapt fitness for now, will change later\
 		for(int r = 0; r<listProgram.size(); r++) {
-			Agent aget = new Agent(fittyFunc, listBlocks.get(r), listProgram.get(r));
+			Agent aget = new Agent(fittyFunc, listBlocks.get(r), agentIDs[r+1], listProgram.get(r));
 			agy.add(aget);
 		}
 		
