@@ -20,6 +20,7 @@ public class ExaptPotentiation {
 		ArrayList startGen = new ArrayList<Integer>();
 		ArrayList numTimesReached = new ArrayList<Integer>();
 		String fileNameThing = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+Constants.FILENAME+".csv";
+		// Runs program for the specified number of steps
 		startRun(Constants.STEP_SIZE_NUM);
 		for(int i = 0; i < Constants.NUM_GENERATIONS; i++) {
 			if(i*Constants.STEP_SIZE_NUM < Constants.NUM_GENERATIONS) {
@@ -56,6 +57,7 @@ public class ExaptPotentiation {
 
 		ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+startStopPoint);
 		for(int gen = 0; gen < Constants.NUM_GENERATIONS; gen++) {
+			//Issue could be here:
 			Simulation sim = new Simulation();
 			
 			sim.reRunSimulation(0, startStopPoint);
@@ -72,11 +74,13 @@ public static void runForGenStepSize(String file,int constNum) throws IOExceptio
 		ExperimentReader.advanceStep(file, constNum);	
 }
 
-
+//Re-runs the simulation for some number of generations from the passed-in file
 	public static int repeatReader(int yesNo, String file) throws IOException {
 		int count = 0;
+		//Gets number to resume on
 		int resuming = ExperimentReader.getResumeNum(file);
 		if(yesNo == 0) {
+			//ReadAgents runs the file
 			for(int tot = 0; tot < Constants.POTENTIATION_RUN_NUM; tot++) {
 				
 				int tester = ExperimentReader.readAgents(file, Constants.NUM_GENERATIONS);

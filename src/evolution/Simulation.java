@@ -73,7 +73,41 @@ public class Simulation {
 		initialGeneration.executeAllStrategies();
 		generations.add(initialGeneration);
 	}
-
+	public Simulation(String stringy)
+	{
+		//Switch statement to control which fitness function is initialized
+		switch(Constants.FITNESS_FUNCTION_TYPE.toLowerCase()) {
+			case "nklandscape":
+				this.fitFunction = new NKLandscape(SeededRandom.getInstance().nextInt());
+				break;
+			case "numones":
+				this.fitFunction = new NumOnes();
+				break;
+			case "exaptfitness":
+				this.fitFunction = new ExaptFitness();
+				break;
+			default:
+				System.out.println("FITNESS_FUNCTION_TYPE not recognized");
+				this.fitFunction = null;
+		}
+		
+		//Switch statement to control selection type used in evolutionary loop
+		switch(Constants.SELECTION_TYPE.toLowerCase()) {
+			case "truncation":
+				this.selectionStrategy = new SelectionTruncation();
+				break;
+			case "tournament":
+				this.selectionStrategy = new SelectionTournament();
+				break;
+			default:
+				System.out.println("SELECTION_TYPE not recognized");
+				this.fitFunction = null;
+		}
+		
+		Generation initialGeneration = new Generation(fitFunction);
+		initialGeneration.executeAllStrategies();
+		generations.add(initialGeneration);
+	}
 	public Simulation()
 	{
 		this.exaptNum = -1;

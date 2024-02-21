@@ -39,7 +39,7 @@ public class ExperimentReader {
 	}
 	
 	public static int readAgents(String file, int stoppingGenNum) throws IOException {
-
+		//Reads in important info from file
 		String[] totalGens = ReadColumnCSV.readCol(1, file, ",");
 		String[] agentNums = ReadColumnCSV.readCol(2, file, ",");
 		String[] function = ReadColumnCSV.readCol(4, file, ",");
@@ -51,6 +51,7 @@ public class ExperimentReader {
 		int resumeNum = totalGenNum+1;
 		//Column Reading works
 		String functionString = function[1].toLowerCase();
+		//Gets the correct fitness function
 		FitnessFunction fitFunction = null;
 		if(functionString.equals("nklandscape")) {
 			fitFunction = new NKLandscape(SeededRandom.getInstance().nextInt());
@@ -65,6 +66,7 @@ public class ExperimentReader {
 				}
 			}
 		}
+		//Gets the correct selection type
 		SelectionStrategy select = null;
 		if(Constants.RERUN_SELECTION_TYPE.toLowerCase().equals("truncation")) {
 			select = new SelectionTruncation();
@@ -82,17 +84,14 @@ public class ExperimentReader {
 		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
 		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
 		Generation gen30 = getNewGen(agList);
-//		System.out.println(resumeNum);
-	//	ExperimentWriter writer = new ExperimentWriter();
-				
-//		System.out.println("Reading/Writing to csv file " + ExperimentWriter.rename(Constants.FILENAME));
-//		
+
 		//Run all of our experiments, and write them to the file as we go. Original:
 		long startTime = System.currentTimeMillis()/1000;
 		int finalFitCount = 0;
 		for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
 		{
 			//edit here
+			//Creates simulation using the new generation, the selected fitness function, and selection strategy
 			Simulation sim = new Simulation(gen30, fitFunction, select);
 			sim.reRunSimulation(resumeNum, stoppingGenNum);
 			if(sim.getFinalFitness() == Constants.GLOBAL_MAX) {
@@ -245,13 +244,16 @@ public class ExperimentReader {
 		return stepList;
 		
 	}
+	
 	public static List<List<Integer>> getProgramNew(String[] programs){
 		List<List<Integer>> newPrograms = new ArrayList<List<Integer>>();
 		for(int i = 1; i < programs.length; i++) {
+			//Splits the program up
 			String[] numberDenoters = programs[i].split("|");
 			ArrayList<String> arry = new ArrayList<String>();
 			for(int j = 0; j<numberDenoters.length;j++) {
 				if(numberDenoters[j]!="|") {
+					//Adds program in order
 					arry.add(numberDenoters[j]);
 				}
 			}
@@ -259,8 +261,10 @@ public class ExperimentReader {
 
 			List<Integer> individProgram = new ArrayList<Integer>();
 			for(int k = 0; k < arry.size(); k++) {
+				//Adds the blocks in order
 				individProgram.add(Integer.parseInt(arry.get(k)));
 			}
+			//Adds the program for each agent
 			newPrograms.add(individProgram);
 		}
 		
