@@ -185,6 +185,7 @@ public class Simulation {
 		header.append("A" + ",");
 		header.append("B" + ",");
 		header.append("C" + ",");
+		header.append("BC" + ",");
 		header.replace(header.length()-1, header.length(), "\n");
 		out.print(header);
 		
@@ -207,6 +208,7 @@ public class Simulation {
 			int trackA = 0;
 			int trackB = 0;
 			int trackC = 0;
+			int trackBC = 0;
 			//detects conditions
 			for(Agent a: nextGeneration.getAgents()) {
 				
@@ -237,6 +239,10 @@ public class Simulation {
 					trackC++;
 				}
 				
+				if(a.getOccuredB() && a.getOccuredC()) {
+					trackBC++;
+				}
+				
 			}
 			
 			System.out.println("Condition A has been reached " + condA + " times");
@@ -250,11 +256,13 @@ public class Simulation {
 			double aPercent = (100 * trackA)/Constants.GENERATION_SIZE;
 			double bPercent = (100 * trackB)/Constants.GENERATION_SIZE;
 			double cPercent = (100 * trackC)/Constants.GENERATION_SIZE;
+			double bcPercent = (100 * trackBC)/Constants.GENERATION_SIZE;
 			
 			line.append(generationNumber + ",");
 			line.append(aPercent + ",");
 			line.append(bPercent + ",");
 			line.append(cPercent + ",");
+			line.append(bcPercent + ",");
 			line.replace(line.length()-1, line.length(), "\n");
 			out.print(line);
 			
