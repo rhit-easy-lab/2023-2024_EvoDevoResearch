@@ -96,6 +96,10 @@ public class Simulation {
 		
 		File file = new File("output/" + Constants.CONDITION_FILENAME + "_" + exaptNum + ".csv");
 		
+		if(exaptNum == -1) {
+			file = new File("output/" + Constants.CONDITION_FILENAME + ".csv");
+		}
+		
 		file.getParentFile().mkdirs();
 		
 		PrintWriter out;
@@ -111,6 +115,9 @@ public class Simulation {
 		header.append("A" + ",");
 		header.append("B" + ",");
 		header.append("C" + ",");
+		header.append("BC" + ",");
+		header.append("avgFit" + ",");
+		header.append("bestFit" + ",");
 		header.replace(header.length()-1, header.length(), "\n");
 		out.print(header);
 		
@@ -133,6 +140,10 @@ public class Simulation {
 			int trackA = 0;
 			int trackB = 0;
 			int trackC = 0;
+			int trackBC = 0;
+			
+			double avgFit = 0;
+			double bestFit = 0;
 			//detects conditions
 			for(Agent a: nextGeneration.getAgents()) {
 				
@@ -163,7 +174,16 @@ public class Simulation {
 					trackC++;
 				}
 				
+				if(a.getOccuredB() && a.getOccuredC()) {
+					trackBC++;
+				}
+				
+				avgFit += a.getFitness();
+				
+				
+				
 			}
+			bestFit = nextGeneration.getAgents().get(0).getFitness();
 			
 			System.out.println("Condition A has been reached " + condA + " times");
 			System.out.println("Condition B has been reached " + condB + " times");
@@ -176,22 +196,27 @@ public class Simulation {
 			double aPercent = (100 * trackA)/Constants.GENERATION_SIZE;
 			double bPercent = (100 * trackB)/Constants.GENERATION_SIZE;
 			double cPercent = (100 * trackC)/Constants.GENERATION_SIZE;
+			double bcPercent = (100 * trackBC)/Constants.GENERATION_SIZE;
+			double avgPercent = (avgFit/Constants.GENERATION_SIZE)/Constants.GLOBAL_MAX * 100;
+			double bestPercent = bestFit/Constants.GLOBAL_MAX * 100;
 			
 			line.append(generationNumber + ",");
 			line.append(aPercent + ",");
 			line.append(bPercent + ",");
 			line.append(cPercent + ",");
+			line.append(bcPercent + ",");
+			line.append(avgPercent + ",");
+			line.append(bestPercent + ",");
+			
 			line.replace(line.length()-1, line.length(), "\n");
 			out.print(line);
 			
 			
 			
 			
-		}
+		} 
 		if(Constants.FITNESS_FUNCTION_TYPE.toLowerCase().equals("exaptfitness")) {
-			
-			
-			
+		
 			
 			
 			this.printLineage();
@@ -200,7 +225,6 @@ public class Simulation {
 		out.close();
 		
 	}
-	
 	
 	
 	public ArrayList<Generation> getGenerations() {

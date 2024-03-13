@@ -19,6 +19,10 @@ plot_error = "standard_error"
 genA = []
 genB = []
 genC = []
+genBC = []
+genAvg = []
+genBest =[]
+
 lower_errors = []
 upper_errors = []
 xaxis = generations
@@ -28,6 +32,11 @@ for gen in generations:
     genA.append(gendata.loc[:,'A'].tolist())
     genB.append(gendata.loc[:,'B'].tolist())
     genC.append(gendata.loc[:, 'C'].tolist())
+    genBC.append(gendata.loc[:,'BC'].tolist())
+    genAvg.append(gendata.loc[:,'avgFit'].tolist())
+    genBest.append(gendata.loc[:, 'bestFit'].tolist())
+    
+
     
     
 
@@ -35,11 +44,14 @@ ax = plt.subplot()
 ax.plot(xaxis, genA, label = "%A")
 ax.plot(xaxis, genB, label = "%B")
 ax.plot(xaxis, genC, label = "%C")
+ax.plot(xaxis, genBC, label = "%BC")
+ax.plot(xaxis, genAvg, label = "%fit of avg")
+ax.plot(xaxis, genBest, label = "%fit of best")
 
 #Make our plot
 plt.title('Condition % met over Generational Time')
 ax.set_xlabel('Generations')
 ax.set_ylabel('% Condition Met')
-
+plt.legend(loc='lower left')
 # Display our plot
 plt.show()
