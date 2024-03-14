@@ -24,6 +24,7 @@ import landscape.NumOnes;
  * 
  *
  */
+//Post merged
 public class Simulation {
 	
 	//Fitness Function used in the simulation

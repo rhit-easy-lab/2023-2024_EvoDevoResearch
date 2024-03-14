@@ -9,6 +9,7 @@ public class ExaptPotentiation {
 	public static void exaptPotentiation(int potentiationType) throws IOException {
 		//PotentiationType = 0 indicates regular potentiation
 		//PotentiationType = 1 indicates constant run potentiation
+		//Try doing a many times repeated re-wind program
 		if(potentiationType != 0) {
 			if(potentiationType != 1) {
 				potentiationType = 0;

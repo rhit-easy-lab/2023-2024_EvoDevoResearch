@@ -70,6 +70,10 @@ public class ExperimentRunner {
 				}else {
 					if(Constants.STATE == 6) {
 						RewindGen.reWind("C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+Constants.ZOOM_IN_FILE_NAME+".csv");
+					}else {
+						if(Constants.STATE == 9) {
+							ReWindPotentiationExperiment.reWindPotentiationExperiment();
+						}
 					}
 				}
 			}
