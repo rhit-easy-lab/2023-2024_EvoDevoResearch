@@ -19,6 +19,7 @@ plot_error = "standard_error"
 genA = []
 genB = []
 genC = []
+genBC = []
 lower_errors = []
 upper_errors = []
 xaxis = generations
@@ -28,7 +29,8 @@ for gen in generations:
     genA.append(gendata.loc[:,'A'].tolist())
     genB.append(gendata.loc[:,'B'].tolist())
     genC.append(gendata.loc[:, 'C'].tolist())
-    
+    genC.append(gendata.loc[:, 'C'].tolist())
+    genBC.append(gendata.loc[:, 'BC'].tolist())
     
 
 ax = plt.subplot()
