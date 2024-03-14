@@ -195,6 +195,7 @@ public class Simulation {
 		header.replace(header.length()-1, header.length(), "\n");
 		out.print(header);
 		
+		
 		for(int generationNumber = 1; generationNumber < numGenerations+1; generationNumber++)
 		{
 			//if enough generations have passed, invoke the fitness function's dynamic behavior
