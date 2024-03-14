@@ -257,7 +257,7 @@ public class Simulation {
 				
 				
 			}
-			bestFit = nextGeneration.getBest().getFitness();
+			bestFit = nextGeneration.getAgents().get(0).getFitness();
 			
 			System.out.println("Condition A has been reached " + condA + " times");
 			System.out.println("Condition B has been reached " + condB + " times");

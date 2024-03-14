@@ -578,7 +578,7 @@ public class Agent implements Comparable<Agent> {
 		// Takes an input for an upper limit for the number of blocks allowed. Based on the copy rate, will choose blocks and copy them, adding them to the list of blocks, until the upper limit is reached.
 		for(int programIndex=0; programIndex < blocks.size(); programIndex++)
 		{
-			double likelyhood = Math.random();
+			double likelyhood = SeededRandom.getInstance().nextDouble();
 			if(likelyhood < Constants.BLOCK_COPY_RATE && program.size()>0)
 			// if(SeededRandom.getInstance().nextDouble() < Constants.BLOCK_COPY_RATE && program.size()>0)
 			{
