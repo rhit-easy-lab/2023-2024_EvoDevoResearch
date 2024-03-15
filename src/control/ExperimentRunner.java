@@ -73,6 +73,10 @@ public class ExperimentRunner {
 					}else {
 						if(Constants.STATE == 9) {
 							ReWindPotentiationExperiment.reWindPotentiationExperiment();
+						}else {
+							if(Constants.STATE == 10) {
+									NewPotentiation.newPotentiation();
+							}
 						}
 					}
 				}
