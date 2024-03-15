@@ -569,29 +569,16 @@ public class Agent implements Comparable<Agent> {
 							newSteps.add(s);
 						}
 					}
-					Step rando = newSteps.get(SeededRandom.getInstance().nextInt(newSteps.size()));
-					blocks.get(block).set(blockIndex, rando);
-					String randomlyChosen = rando.toString();
-					listStrings.add(randomlyChosen);
-					mutationPosition.add(blockIndex);
-					if((block == Constants.UPPER_NUMBER_OF_BLOCKS - 1) && (randomlyChosen =="SteepestFall") && (blockIndex < (Constants.BLOCK_LENGTH)/4)) {
-						int generationNumber = Generation.genNum;
-						System.out.print(generationNumber + " ");
-					}
-					
+					blocks.get(block).set(blockIndex, newSteps.get(SeededRandom.getInstance().nextInt(newSteps.size())));
 				}
 			}
-		}
-		for(int j = 0; j < listStrings.size(); j++) {
-//			System.out.print("| Step: "+ listStrings.get(j) + "| ");
-//			System.out.print("| Mutation Position: "+ mutationPosition.get(j) + "| ");
 		}
 		//ADD CHANCE OF COPYING
 		
 		// Takes an input for an upper limit for the number of blocks allowed. Based on the copy rate, will choose blocks and copy them, adding them to the list of blocks, until the upper limit is reached.
 		for(int programIndex=0; programIndex < blocks.size(); programIndex++)
 		{
-			double likelyhood = Math.random();
+			double likelyhood = SeededRandom.getInstance().nextDouble();
 			if(likelyhood < Constants.BLOCK_COPY_RATE && program.size()>0)
 			// if(SeededRandom.getInstance().nextDouble() < Constants.BLOCK_COPY_RATE && program.size()>0)
 			{
@@ -883,7 +870,7 @@ public class Agent implements Comparable<Agent> {
 	}
 	
 	public boolean exaptBest() {
-		return this.getFinalFitness()==23;
+		return this.getFinalFitness()==Constants.GLOBAL_MAX;
 	}
 	
 	public void setID(int indivNum) {
