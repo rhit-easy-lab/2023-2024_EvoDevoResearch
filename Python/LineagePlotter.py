@@ -32,31 +32,38 @@ maxNum = df.at[1,'Final_Fitness']
 
 generations.sort()
 
+numGen = len(generations) - 1
+
 for gen in generations:
     gendata = df.loc[df['Generation'] == gen]
 
     fit.append(gendata.loc[:,'Final_Fitness'].tolist())
-    if(gendata.loc[0,'Cond A'].tolist == 'TRUE'):
-        print('A')
+
+    if(gendata.at[numGen - gen,'Cond A'] == True):
         metA.append(maxNum*0.25)
     else:
-        metA.append(0)
-    if(gendata.at[:,'Cond B'] == 'True'):
+        metA.append(-5)
+    if(gendata.at[numGen - gen,'Cond B'] == True):
         metB.append(maxNum*0.5)
     else:
-        metB.append(0)
-    if(gendata.at[:,'Cond C'] == 'True'):
+        metB.append(-5)
+    if(gendata.at[numGen - gen,'Cond C'] == True):
         metC.append(maxNum*0.75)
     else:
-        metC.append(0)
+        metC.append(-5)
 
 
 ax = plt.subplot()
-ax.plot(xaxis, fit, label = "Fitness")
-ax.plot(xaxis, metA, label = "Cond A occurred",markersize=12)
-ax.plot(xaxis, metB, label = "Cond B occurred", linestyle='dotted')
-ax.plot(xaxis, metC, label = "Cond C occurred", linestyle='dotted')
 
+ax.plot(xaxis, fit, label = "Fitness")
+ax.scatter(xaxis, metA, label = "Cond A occurred",)
+ax.scatter(xaxis, metB, label = "Cond B occurred", )
+ax.scatter(xaxis, metC, label = "Cond C occurred",)
+
+
+#This sets the y axis to minimum of 0. If we want negative fitness, we must change this
+axis = plt.gca()
+axis.set_ylim([0,None])
 
 
 #Make our plot
