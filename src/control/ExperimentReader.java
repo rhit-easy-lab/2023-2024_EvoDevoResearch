@@ -46,9 +46,10 @@ public class ExperimentReader {
 		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
 		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
 		String[] parentNum = ReadColumnCSV.readCol(9, file, ",");
-		System.out.println("totalGens size" + totalGens.length);
-		System.out.println("agentNums" + totalGens.length);
-		
+		System.out.println();
+
+		System.out.println("Program" + programCurrent.length);
+		System.out.println();
 		//Total number of generations
 		int totalGenNum = Integer.parseInt(totalGens[1]);
 		int resumeNum = totalGenNum+1;
@@ -189,20 +190,38 @@ public class ExperimentReader {
 	}
 	public static void runAndPrint() throws IOException {
 		
-		for(int i = 1; i < Constants.NUM_GENERATIONS + 1; i++) {
-			ExperimentWriter writer = new ExperimentWriter();
-			ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+i+"");
-			
-				Simulation sim = new Simulation();
-				sim.runSimulation();
-				ArrayList<Generation> gens = sim.getGenerations();
-				for(int k = 0; k < gens.size(); k++) {
-					writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-					writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-				}
+//		for(int i = 1; i < Constants.NUM_GENERATIONS + 1; i++) {
+//		//	ExperimentWriter writer = new ExperimentWriter();
+//			ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+i+"");
+//			
+//				Simulation sim = new Simulation();
+//				sim.runSimulation();
+//				ArrayList<Generation> gens = sim.getGenerations();
+//				System.out.println(gens.size());
+//				for(int k = 0; k < gens.size(); k++) {
+//				//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+//					writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+//				}
+//				writer2.closePrintWriter();
+//				
+//			}
+		
+			//	ExperimentWriter writer = new ExperimentWriter();
 				
+				//Problem fixed (I think)
+					Simulation sim = new Simulation();
+					sim.runSimulation();
+					ArrayList<Generation> gens = sim.getGenerations();
+					System.out.println(gens.size());
+					for(int k = 0; k < gens.size(); k++) {
+						ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(k+1)+"");
+					//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+						writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+						writer2.closePrintWriter();
+					}
+					
+					
 				
-			}
 	
 		
 		
