@@ -189,7 +189,7 @@ public class ExperimentReader {
 		
 	}
 	public static void runAndPrint() throws IOException {
-		
+		//Old code
 //		for(int i = 1; i < Constants.NUM_GENERATIONS + 1; i++) {
 //		//	ExperimentWriter writer = new ExperimentWriter();
 //			ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+i+"");
@@ -208,7 +208,7 @@ public class ExperimentReader {
 		
 			//	ExperimentWriter writer = new ExperimentWriter();
 				
-				//Problem fixed (I think)
+				//Problem fixed 
 					Simulation sim = new Simulation();
 					sim.runSimulation();
 					ArrayList<Generation> gens = sim.getGenerations();
