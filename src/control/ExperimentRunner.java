@@ -76,6 +76,10 @@ public class ExperimentRunner {
 						}else {
 							if(Constants.STATE == 10) {
 									NewPotentiation.newPotentiation();
+							}else {
+								if(Constants.STATE == 11) {
+									ExperimentReader.runAndPrint();
+								}
 							}
 						}
 					}

@@ -46,6 +46,9 @@ public class ExperimentReader {
 		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
 		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
 		String[] parentNum = ReadColumnCSV.readCol(9, file, ",");
+		System.out.println("totalGens size" + totalGens.length);
+		System.out.println("agentNums" + totalGens.length);
+		
 		//Total number of generations
 		int totalGenNum = Integer.parseInt(totalGens[1]);
 		int resumeNum = totalGenNum+1;
@@ -184,6 +187,35 @@ public class ExperimentReader {
 		
 		
 	}
+	public static void runAndPrint() throws IOException {
+		
+		for(int i = 1; i < Constants.NUM_GENERATIONS + 1; i++) {
+			ExperimentWriter writer = new ExperimentWriter();
+			ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+i+"");
+			
+				Simulation sim = new Simulation();
+				sim.runSimulation();
+				ArrayList<Generation> gens = sim.getGenerations();
+				for(int k = 0; k < gens.size(); k++) {
+					writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+					writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+				}
+				
+				
+			}
+	
+		
+		
+		
+//		System.out.println("Reading/Writing to csv file " + ExperimentWriter.rename(Constants.FILENAME));
+//		
+		//Run all of our experiments, and write them to the file as we go. Original:
+		
+		
+	}
+	
+	
+	
 	//Re-start simulation at our new generation starting number, instantiate more agents with the programs and blocks
 	public static ArrayList<Agent> generateNewAgents(String[] agentIDs, List<List<Integer>> listProgram, List<List<List<Step>>> listBlocks, FitnessFunction fittyFunc) {
 		ArrayList<Agent> agy = new ArrayList<Agent>();

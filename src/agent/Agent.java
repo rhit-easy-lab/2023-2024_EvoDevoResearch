@@ -268,7 +268,7 @@ public class Agent implements Comparable<Agent> {
 	 * the blocks by concatenating copies of the blocks specified in the order
 	 * of the program
 	 */
-	
+	///
 	private void compileStrategyAndInitializeHistory()
 	{
 		strategy = new ArrayList<Step>();

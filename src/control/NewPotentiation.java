@@ -6,23 +6,19 @@ import java.util.ArrayList;
 public class NewPotentiation {
 public static void newPotentiation() throws IOException {
 	ArrayList startGen = new ArrayList<Integer>();
-	String fileNameThing = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+Constants.FILENAME+".csv";
 	ArrayList numTimesReached = new ArrayList<Integer>();
-	
-	ExaptPotentiation.startRun(5);
-	for(int k = 1; k < 10; k++) {
-		ExaptPotentiation.runForGenStepSize(fileNameThing,5*k);
+	int stepSized = 0;
+	for(int i = 0; i < Constants.NUM_GENERATIONS; i++) {
+		if(i*Constants.STEP_SIZE_NUM < Constants.NUM_GENERATIONS) {
+			stepSized++;
+		}
 	}
 	
 	
-	
-	
-	
-	
-	
-	for(int i = 1; i < 10 ; i++) {
-		int a = 5*i;
-		String fileName = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+"GenerationAt"+a+".csv";
+	for(int i = 1; i < stepSized ; i++) {
+		int a = Constants.STEP_SIZE_NUM*i;
+		String fileName = "C:\\Users\\renneram\\OneDrive - Rose-Hulman Institute of Technology\\Desktop\\2023-2024_EvoDevoResearch\\output\\GenerationAt"+a+".csv";
+		//String fileName = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+"GenerationAt"+a+".csv";
 		startGen.add(a);
 		numTimesReached.add(ExaptPotentiation.repeatReader(0, fileName));
 	}
@@ -38,3 +34,4 @@ public static void newPotentiation() throws IOException {
 	}
 }
 }
+///EvoDevoNKFLCoreMerged/output/GenerationAt60.csv
