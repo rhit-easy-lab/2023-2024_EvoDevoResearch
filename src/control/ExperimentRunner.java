@@ -75,7 +75,7 @@ public class ExperimentRunner {
 							ReWindPotentiationExperiment.reWindPotentiationExperiment();
 						}else {
 							if(Constants.STATE == 10) {
-									NewPotentiation.newPotentiation();
+									NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
 							}else {
 								if(Constants.STATE == 11) {
 									ExperimentReader.runAndPrint();

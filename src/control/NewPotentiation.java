@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class NewPotentiation {
-public static void newPotentiation() throws IOException {
+public static void newPotentiation(int potentiationType) throws IOException {
 	ArrayList startGen = new ArrayList<Integer>();
 	ArrayList numTimesReached = new ArrayList<Integer>();
 	int stepSized = 0;
@@ -23,7 +23,7 @@ public static void newPotentiation() throws IOException {
 		//String fileName = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+"GenerationAt"+a+".csv";
 		startGen.add(a);
 		System.out.println("GenerationAt"+a);
-		numTimesReached.add(ExaptPotentiation.repeatReader(0, fileName));
+		numTimesReached.add(ExaptPotentiation.repeatReader(potentiationType, fileName));
 	}
 	
 	
