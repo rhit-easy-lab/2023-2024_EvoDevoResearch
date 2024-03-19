@@ -273,8 +273,8 @@ public class Simulation {
 			double bPercent = (100 * trackB)/Constants.GENERATION_SIZE;
 			double cPercent = (100 * trackC)/Constants.GENERATION_SIZE;
 			double bcPercent = (100 * trackBC)/Constants.GENERATION_SIZE;
-			double avgPercent = (avgFit/Constants.GENERATION_SIZE)/Constants.GLOBAL_MAX;
-			double bestPercent = bestFit;
+			double avgPercent = (avgFit/Constants.GENERATION_SIZE)/Constants.GLOBAL_MAX * 100;
+			double bestPercent = bestFit/Constants.GLOBAL_MAX * 100;
 			
 			line.append(generationNumber + ",");
 			line.append(aPercent + ",");
