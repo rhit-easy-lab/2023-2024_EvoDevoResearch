@@ -46,10 +46,7 @@ public class ExperimentReader {
 		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
 		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
 		String[] parentNum = ReadColumnCSV.readCol(9, file, ",");
-		System.out.println();
-
-		System.out.println("Program" + programCurrent.length);
-		System.out.println();
+		
 		//Total number of generations
 		int totalGenNum = Integer.parseInt(totalGens[1]);
 		int resumeNum = totalGenNum+1;
@@ -101,9 +98,10 @@ public class ExperimentReader {
 			if(sim.getFinalFitness() == Constants.GLOBAL_MAX) {
 				finalFitCount=1;
 			}
-			
+			//System.out.print(sim.getGenerations().get(sim.getGenerations().size() - 1).getAgents());
 		
 			}
+		
 	//	writer.closePrintWriter();
 		return finalFitCount;
 //		
@@ -214,9 +212,9 @@ public class ExperimentReader {
 					ArrayList<Generation> gens = sim.getGenerations();
 					System.out.println(gens.size());
 					for(int k = 0; k < gens.size(); k++) {
-						ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(k+1)+"");
+						ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(k)+"");
 					//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-						writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+						writer2.writeGen(gens.get(k), Integer.toString(k), Constants.GENERATION_SIZE);
 						writer2.closePrintWriter();
 					}
 					

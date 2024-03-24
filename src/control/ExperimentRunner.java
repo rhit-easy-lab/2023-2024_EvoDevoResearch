@@ -3,6 +3,7 @@ package control;
 import control.ExperimentReader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import evolution.Generation;
 import evolution.Simulation;
@@ -32,12 +33,13 @@ public class ExperimentRunner {
 				
 				exaptFile = Integer.parseInt(args[1]);
 			}
-		}
-		else
-		{
+		}else{
 			System.out.println("No configuration file specified. Continuing with default paramaters.");
 			PropParser.load(PropParser.defaultFilename);
-		}
+		}if(Constants.STATE == 10) {
+			System.out.println("JELLO");
+		NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
+	}else {
 		if(Constants.STATE == 2) {
 			
 			//Add state about reading from .csv, running
@@ -74,17 +76,23 @@ public class ExperimentRunner {
 						if(Constants.STATE == 9) {
 							ReWindPotentiationExperiment.reWindPotentiationExperiment();
 						}else {
-							if(Constants.STATE == 10) {
-									NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
-							}else {
 								if(Constants.STATE == 11) {
 									ExperimentReader.runAndPrint();
+								}else {
+									if(Constants.STATE == 12) {
+										ArrayList<Integer> inty = new ArrayList<Integer>();
+										inty.add(1);
+										inty.add(1);
+										inty.add(1);
+										inty.add(1);
+										CSVWriterSample.csvWrite(null, inty);
+									}
 								}
 							}
 						}
 					}
 				}
-			}
+			
 		
 		System.out.println("Writing to csv file " + ExperimentWriter.rename(Constants.FILENAME));
 		//Run all of our experiments, and write them to the file as we go. Original:
@@ -140,7 +148,7 @@ public class ExperimentRunner {
 		//finish up
 		
 	}
-
-
 	}
+	}
+	
 

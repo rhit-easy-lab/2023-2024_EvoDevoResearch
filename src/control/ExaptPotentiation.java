@@ -42,7 +42,7 @@ public class ExaptPotentiation {
 		System.out.println();
 		System.out.println();
 		for(int k=0; k<numTimesReached.size(); k++) {
-			System.out.print(startGen.get(k)+" ,");
+			System.out.print(startGen.get(k)+"a");
 			System.out.print(numTimesReached.get(k));
 			System.out.println();
 			

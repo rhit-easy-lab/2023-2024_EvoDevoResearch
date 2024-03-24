@@ -17,6 +17,7 @@ generations = [*set(generationsAll)]
 #Calculate the mean values and error of the fitness at each generation
 plot_error = "standard_error"
 genA = []
+potentiation = []
 genB = []
 genC = []
 genBC = []
@@ -29,6 +30,7 @@ xaxis = generations
 for gen in generations:
     gendata = df.loc[df['Generation'] == gen]
     genA.append(gendata.loc[:,'A'].tolist())
+    potentiation.append(gendata.loc[:,'potentiation'].tolist())
     genB.append(gendata.loc[:,'B'].tolist())
     genC.append(gendata.loc[:, 'C'].tolist())
     genBC.append(gendata.loc[:, 'BC'].tolist())
@@ -39,6 +41,7 @@ for gen in generations:
 ax = plt.subplot()
 ax.plot(xaxis, genA, label = "%A")
 ax.plot(xaxis, genB, label = "%B")
+ax.plot(xaxis, potentiation, label = "%potentiation")
 ax.plot(xaxis, genC, label = "%C")
 ax.plot(xaxis, genBC, label = "%BC")
 ax.plot(xaxis, avgFit, label = "%avg")

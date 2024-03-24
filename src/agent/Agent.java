@@ -241,6 +241,27 @@ public class Agent implements Comparable<Agent> {
 		this.compileStrategyAndInitializeHistory();
 	}
 	
+	@Override
+	public String toString() {
+		return "Agent [program=" + program+"]";
+	}
+
+	public List<Step> getStepList() {
+		return stepList;
+	}
+
+	public void setStepList(List<Step> stepList) {
+		this.stepList = stepList;
+	}
+
+	public void setProgram(List<Integer> program) {
+		this.program = program;
+	}
+
+	public void setStrategy(List<Step> strategy) {
+		this.strategy = strategy;
+	}
+
 	public static Phenotype getRandomPhenotype() {
 		switch(Constants.PHENOTYPE_TYPE.toLowerCase()) {
 			case "nkphenotype":
