@@ -19,7 +19,7 @@ public static void newPotentiation(int potentiationType) throws IOException {
 	System.out.println("StepSized"+stepSized);
 	
 	
-	for(int k = 0; k < stepSized; k++) {
+	for(int k = 0; k < stepSized + 1; k++) {
 		int a = Constants.STEP_SIZE_NUM*k;
 		String fileName = "C:\\Users\\renneram\\OneDrive - Rose-Hulman Institute of Technology\\Desktop\\2023-2024_EvoDevoResearch\\output\\GenerationAt"+a+".csv";
 		//String fileName = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+"GenerationAt"+a+".csv";
