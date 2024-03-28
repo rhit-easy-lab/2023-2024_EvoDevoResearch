@@ -1,5 +1,6 @@
 package control;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,9 @@ public static void newPotentiation(int potentiationType) throws IOException {
 	
 	for(int k = 0; k < stepSized + 1; k++) {
 		int a = Constants.STEP_SIZE_NUM*k;
-		String fileName = "C:\\Users\\renneram\\OneDrive - Rose-Hulman Institute of Technology\\Desktop\\2023-2024_EvoDevoResearch\\output\\GenerationAt"+a+".csv";
+
+		
+		String fileName = new File("output/GenerationAt"+a+".csv").getAbsolutePath();
 		//String fileName = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+"GenerationAt"+a+".csv";
 		startGen.add(a);
 		System.out.println("GenerationAt"+a);
