@@ -67,10 +67,11 @@ axis.set_ylim([0,None])
 
 
 #Make our plot
-plt.title('Lineage over Generational Time')
+plt.title('Fitness and Condition Occurences over Generational Time')
 ax.set_xlabel('Generations')
-ax.set_ylabel('% Condition Met')
+ax.set_ylabel('Fitness')
 plt.legend(loc="upper left")
+plt.rcParams['font.size'] = 18
 
 # Display our plot
 plt.show()

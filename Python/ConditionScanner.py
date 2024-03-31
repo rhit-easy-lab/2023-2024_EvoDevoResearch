@@ -10,6 +10,11 @@ from tkinter.filedialog import askopenfilename
 file = askopenfilename()
 df = pd.read_csv(file)
 
+ask = input("Do you want to read in potentiation as well? Enter 0 for no, 1 for yes")
+
+
+
+
 #Get the number of each generation
 generationsAll = df.loc[:, 'Generation'].tolist()
 generations = [*set(generationsAll)]
@@ -17,7 +22,6 @@ generations = [*set(generationsAll)]
 #Calculate the mean values and error of the fitness at each generation
 plot_error = "standard_error"
 genA = []
-potentiation = []
 genB = []
 genC = []
 genBC = []
@@ -30,7 +34,6 @@ xaxis = generations
 for gen in generations:
     gendata = df.loc[df['Generation'] == gen]
     genA.append(gendata.loc[:,'A'].tolist())
-    potentiation.append(gendata.loc[:,'potentiation'].tolist())
     genB.append(gendata.loc[:,'B'].tolist())
     genC.append(gendata.loc[:, 'C'].tolist())
     genBC.append(gendata.loc[:, 'BC'].tolist())
@@ -41,11 +44,27 @@ for gen in generations:
 ax = plt.subplot()
 ax.plot(xaxis, genA, label = "%A")
 ax.plot(xaxis, genB, label = "%B")
-ax.plot(xaxis, potentiation, label = "%potentiation")
 ax.plot(xaxis, genC, label = "%C")
 ax.plot(xaxis, genBC, label = "%BC")
 ax.plot(xaxis, avgFit, label = "%avg")
 ax.plot(xaxis, bestFit, label = "%best")
+
+if(ask != "0"):
+    file2 = askopenfilename()
+    df2 = pd.read_csv(file2)
+
+    generationsAll2 = df2.loc[:, 'Generation'].tolist()
+    generations2 = [*set(generationsAll2)]
+
+    pot = []
+    for gen in generations2:
+        gendata2 = df2.loc[df['Generation'] == gen]
+        pot.append(gendata2.loc[:, 'potentiation'].tolist())
+
+    ax.plot(xaxis, pot, label = "%potentation")
+    
+
+
 
 
 #Make our plot
