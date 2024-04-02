@@ -69,5 +69,7 @@ public class Constants {
 	public static final int UP_BRANCH_NUMBER = Integer.parseInt(PropParser.getProperty("upBranchNumber"));
 	public static final String LINEAGE_FILENAME = PropParser.getProperty("lineageFile");
 	public static final String CONDITION_FILENAME = PropParser.getProperty("conditionFile");
+	public static final String LINEAGE_POT_FILENAME = PropParser.getProperty("lineagePotFile");
+	
 	
 }

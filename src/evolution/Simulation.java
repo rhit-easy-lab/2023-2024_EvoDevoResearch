@@ -356,14 +356,21 @@ public class Simulation {
 	//makes a filewriter, sets up a header and begins a recursive call
 	public void setUpPrinting(Agent guy) {
 		File file;
+		File file2;
 
-		if(exaptNum != -1)
+		if(exaptNum != -1) {
 			file = new File("output/" + Constants.LINEAGE_FILENAME + "_" + exaptNum + ".csv");
-		else
+			file2 = new File("output/" + Constants.LINEAGE_POT_FILENAME + "_" + exaptNum + ".csv");
+		}
+		else {
 			file = new File("output/" + Constants.LINEAGE_FILENAME + ".csv");
+			file2 = new File("output/" + Constants.LINEAGE_POT_FILENAME + ".csv");
+		}
 		
 		file.getParentFile().mkdirs();
+		file2.getParentFile().mkdirs();
 		
+		//for original lineage
 		PrintWriter out;
 		try {
 			out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
@@ -372,6 +379,18 @@ public class Simulation {
 			e.printStackTrace();
 			return;
 		}
+		
+		//for potentiation lineage
+		PrintWriter out2;
+		try {
+			out2 = new PrintWriter(new BufferedWriter(new FileWriter(file2)));
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+			return;
+		}
+		
+		
 
 		//Creates a header
 		StringBuilder line = new StringBuilder();
@@ -402,22 +421,33 @@ public class Simulation {
 			line.append("P" + i + ",");
 		}
 		
-		
-
-
-		
-
-
-		
 
 //		line.append("Parent_number,");
-
 		
 		
 		line.replace(line.length()-1, line.length(), "\n"); //replace the extra comma with a next line
 		out.print(line);
 		
-		guy.printLineage(out, 1, generations.size()-1);
+		
+		
+		//Now for potentiation
+		StringBuilder line2 = new StringBuilder();
+		
+		line2.append("Generation,");
+		line2.append(" ,");
+		line2.append("AgentID,");
+		line2.append(" ,");
+		line2.append("Final_Fitness,");
+		line2.append(" ,");
+		line2.append("Blocks,");
+		line2.append(" ,");
+		line2.append("Program");
+		line2.append("\n");
+		out2.print(line2);
+		
+		
+		
+		guy.printLineage(out, 1, generations.size()-1, out2);
 		
 		out.close();
 		

@@ -71,7 +71,7 @@ if(ask != "0"):
 plt.title('Condition % met over Generational Time')
 ax.set_xlabel('Generations')
 ax.set_ylabel('% Condition Met')
-plt.legend(loc="upper left")
+plt.legend(loc="lower right")
 
 # Display our plot
 plt.show()

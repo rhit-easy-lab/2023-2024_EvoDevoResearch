@@ -70,7 +70,7 @@ axis.set_ylim([0,None])
 plt.title('Fitness and Condition Occurences over Generational Time')
 ax.set_xlabel('Generations')
 ax.set_ylabel('Fitness')
-plt.legend(loc="upper left")
+plt.legend(loc="lower right")
 plt.rcParams['font.size'] = 18
 
 # Display our plot
