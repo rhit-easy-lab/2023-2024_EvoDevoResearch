@@ -175,6 +175,16 @@ public class Agent implements Comparable<Agent> {
 		this.compileStrategyAndInitializeHistory();
 	}
 	
+	public Agent(FitnessFunction fitnessFunction, List<List<Step>> blocks, String iD, List<Integer> program, double finalFitnessScore) {
+		this.phenotype = Agent.getRandomPhenotype();
+		this.fitness = finalFitnessScore;
+		this.fitnessFunction = fitnessFunction;
+		this.program = program;
+		this.id = iD;
+		this.blocks = blocks;
+		this.compileStrategyAndInitializeHistory();
+	}
+	
 	
 	/**
 	 * Constructor for Agent. Creates an agent with a given initial phenotype,
@@ -800,7 +810,7 @@ public class Agent implements Comparable<Agent> {
 	}
 	
 	
-	public void printLineage(PrintWriter out, int simulationNum, int genIndex, PrintWriter out2) {
+	public void printLineage(PrintWriter out, int simulationNum, int genIndex) {
 		StringBuilder line = new StringBuilder();
 		
 		// Simulation
@@ -869,73 +879,22 @@ public class Agent implements Comparable<Agent> {
 
 		}
 		
-		//Now for potentation stuff
-		
-		StringBuilder line2 = new StringBuilder();
-
-		// Generation
-		line2.append(ExperimentWriter.toCSVDelimited(genIndex+""));
-		
-		line2.append(" ,");
-		
-		//agent id
-		line2.append(this.getID()+',');
-		
-		line2.append(" ,");
-		
-		// Final Fitness
-		line2.append(""+this.getFinalFitness()+',');
-
-		line2.append(" ,");
-		
-		StringBuilder blockString = new StringBuilder();
-		List<List<Step>> tableBlocks2 = this.getBlocks();
-		for(int i = 0; i < tableBlocks2.size(); i++) {
-			blockString.append("{");
-			
-			for(int j = 0; j < tableBlocks2.get(i).size(); j++) {
-				blockString.append(tableBlocks2.get(i).get(j));
-				blockString.append(":");
-			}
-			blockString.replace(blockString.length()-1, blockString.length(), "};");
-			
-			
-			
-		}
-		blockString.replace(blockString.length()-1, blockString.length(), "");
-		
-		line2.append(blockString.toString()+", ,");
-		
-		StringBuilder progString = new StringBuilder();
-		if(Constants.PROGRAM_LENGTH > 0)
-		{
-			for(Integer block : this.getProgram()) {
-				progString.append(block);
-				progString.append("|");
-			}
-			progString.replace(progString.length()-1, progString.length(), "\n");
-
-		} else{
-			System.out.print(genIndex + "HDHDHDHDHDHDHHD");
-		}
 
 		
-		line2.append(progString);
-		
-		out2.print(line2);
+	
+
 		
 		
 
-		out2.flush();
+		
 		
 //			line.append("PLACEHOLDER,"); // TODO replace with actual parent number
 		
 		
 		line.replace(line.length()-1, line.length(), "\n"); // replace the extra comma with a next line
 		out.print(line);
-		out.flush();
 		if(this.parent != null)
-			this.parent.printLineage(out, simulationNum, genIndex-1, out2);
+			this.parent.printLineage(out, simulationNum, genIndex-1);
 		else
 			return;
 		

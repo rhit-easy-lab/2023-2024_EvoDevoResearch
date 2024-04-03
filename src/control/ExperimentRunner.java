@@ -2,6 +2,7 @@ package control;
 
 import control.ExperimentReader;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -35,7 +36,7 @@ public class ExperimentRunner {
 			}
 		}else{
 			System.out.println("No configuration file specified. Continuing with default paramaters.");
-			PropParser.load(PropParser.defaultFilename);
+		//	PropParser.load(PropParser.defaultFilename);
 		}if(Constants.STATE == 10) {
 			System.out.println("JELLO");
 		NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
@@ -80,12 +81,21 @@ public class ExperimentRunner {
 									ExperimentReader.runAndPrint();
 								}else {
 									if(Constants.STATE == 12) {
-										ArrayList<Integer> inty = new ArrayList<Integer>();
-										inty.add(1);
-										inty.add(1);
-										inty.add(1);
-										inty.add(1);
-										CSVWriterSample.csvWrite(null, inty);
+										for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++){
+											Simulation sim = new Simulation(exaptFile);
+												sim.runSimulation();
+												writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
+												
+											}
+										ExperimentReader.runAndPrint();
+										NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
+									}else {
+										if(Constants.STATE == 13) {
+											///EvoDevoNKFLCoreMerged/output/LineageWithPotentiation.csv
+											String fileName = new File("output/LineageWithPotentiation.csv").getAbsolutePath();
+											
+											LineageReadIn.readAgentsLineage(fileName);
+										}
 									}
 								}
 							}

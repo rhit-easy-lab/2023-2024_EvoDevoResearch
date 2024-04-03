@@ -185,6 +185,14 @@ public class ExperimentWriter {
 		writeGen(gen,genIndex,agent_numbers);
 	}
 	
+	public void writeGen(Generation gen, String genIndex, int top_n, double fitness) {
+		int[] agent_numbers = new int[top_n];
+		for(int i = 0; i<top_n;i++) {
+			agent_numbers[i]=i;
+		}
+		writeGen(gen,genIndex,agent_numbers,fitness);
+	}
+	
 
 	/**
 	 * Writes a singular Generation to the CSV file
@@ -256,6 +264,104 @@ public class ExperimentWriter {
 				}
 			if(params.contains("final fitness")) {
 				line.append(""+agent.getFinalFitness());
+			}
+
+//			if(params.contains("pheno")) {
+//				line.append(","+agent.getPheno()+',');
+//			}
+			if(params.contains("node number")) {
+				line.append(","+agent.getPheno().getNumber()+',');
+			}
+//			if(params.contains("node neighbors")) {
+//				line.append(",");
+//				for(int k = 0; k < agent.getPheno().getNeighbors().size(); k++) {
+//					line.append(agent.getPheno().getNeighbors().get(k).getNumber()+"|");
+//				}
+//				line.append(',');
+//			}
+			if(params.contains("fitnesses")) {
+				line.append(toCSVDelimited(agent.getFitnessHistory().toString()));
+			}
+		
+			if(params.contains("fitness history")) {
+				line.append("PLACEHOLDER,"); // TODO replace with actual parent number
+			}
+			
+			line.replace(line.length()-1, line.length(), "\n"); // replace the extra comma with a next line
+			out.print(line);
+		}
+		
+	}
+	/**
+	 * Writes a singular Generation to the CSV file
+	 * genIndex is a string rather than integer to allow for extra-evolutionary generation runs
+	 * @param gen
+	 * @param genIndex	
+	 */
+	public void writeGen(Generation gen, String genIndex, int[] agent_numbers, Double fitness) {
+		List<Agent> agents = gen.getAgents();
+		for(int num:agent_numbers) {
+			
+			Agent agent = agents.get(num);
+			
+			line = new StringBuilder();
+			
+			// Simulation
+			line.append(simulationNum+",");
+
+			// Generation
+			line.append(toCSVDelimited((genIndex)));
+
+			// Agent Number
+			line.append(agent.getID()+",");
+			
+			if(params.contains("generation size")) {
+				line.append(Constants.GENERATION_SIZE+",");
+			}
+			if(params.contains("function string")) {
+				line.append(toCSVDelimited(Constants.FITNESS_FUNCTION_TYPE));//TODO make this better so that it can include more details
+			}
+			if(params.contains("block")) {
+				StringBuilder sb = new StringBuilder();
+				for(List<Step> block : agent.getBlocks()) {
+					sb.append("{");
+					for(Step s : block) {
+						sb.append(s.toString());
+						sb.append(":");
+					}
+					sb.replace(sb.length()-1, sb.length(), "};"); // replace extra comma with closing bracket and separating comma
+				}
+				sb.deleteCharAt(sb.length()-1); // remove extra comma
+				line.append(toCSVDelimited(sb.toString()));
+			}
+			if(params.contains("program")) {
+				StringBuilder sb = new StringBuilder();
+				if(Constants.PROGRAM_LENGTH > 0)
+				{
+				for(Integer block : agent.getProgram()) {
+					sb.append(block);
+					sb.append("|");
+				}
+				sb.deleteCharAt(sb.length()-1); // remove extra comma
+				}
+				line.append(toCSVDelimited(sb.toString()));
+			}
+			if(params.contains("strategy")) {
+//				line.append(toCSVDelimited(agent.getStrategy().toString()));
+				List<Step> strat = agent.getStrategy();
+				String not = "";
+				for(int k = 0; k < strat.size(); k++) {
+					if(k != strat.size() - 1) {
+						not = not + strat.get(k).toString() + "|";
+					}else {
+						not = not + strat.get(k).toString();
+					}
+					
+				}
+				line.append(toCSVDelimited(not));
+				}
+			if(params.contains("final fitness")) {
+				line.append(fitness);
 			}
 
 //			if(params.contains("pheno")) {

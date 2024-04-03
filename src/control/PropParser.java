@@ -20,7 +20,7 @@ import java.util.Properties;
  */
 
 public class PropParser {
-	public static final String defaultFilename = "config/defaultConfig.properties";
+//	public static final String defaultFilename = "config/defaultConfig.properties";
 	
 	public static void load(String filename) {
 		//Load our config
@@ -34,14 +34,14 @@ public class PropParser {
 		}
 		
 		//Load the default config
-		try {
-			getDefaultInstance().load( new FileReader(new File(defaultFilename)));
-		} catch (FileNotFoundException e) {
-			System.err.println("Default config file not found.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//		//	getDefaultInstance().load( new FileReader(new File(defaultFilename)));
+//		} catch (FileNotFoundException e) {
+//			System.err.println("Default config file not found.");
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	//Singleton for our properties
