@@ -615,28 +615,28 @@ public class Agent implements Comparable<Agent> {
 			{
 				if(blocks.size() < Constants.UPPER_NUMBER_OF_BLOCKS) {
 					blocks.add(blocks.get(programIndex));
-					
-						int a = Generation.returnCounter();
-						if(arry.size() == 0) {
-							arry.add(a);
-						}else {
-							int total1 = 0;
-							for(int k = 0; k < arry.size(); k++) {
-								if(arry.get(k) == a) {
-									total1++;
-								}
-							}
-							if(total1 != 1) {
-								arry.add(a);
-							}
-							//Testing
-							}
-					}
-
-				for(int i = 0; i < arry.size(); i++) {
-				//	System.out.print(arry.get(i) + " ");
 				
-				}
+//						int a = Generation.returnCounter();
+//						if(arry.size() == 0) {
+//							arry.add(a);
+//						}else {
+//							int total1 = 0;
+//							for(int k = 0; k < arry.size(); k++) {
+//								if(arry.get(k) == a) {
+//									total1++;
+//								}
+//							}
+//							if(total1 != 1) {
+//								arry.add(a);
+//							}
+//							//Testing
+//							}
+					}//Keep
+
+//				for(int i = 0; i < arry.size(); i++) {
+//				//	System.out.print(arry.get(i) + " ");
+//				
+//				}
 
 			}
 		}

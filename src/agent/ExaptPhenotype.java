@@ -31,7 +31,6 @@ public class ExaptPhenotype extends Phenotype{
 //The upBranchNumber is the number of nodes on the branch starting at the end of the downwards branch. Do not include the last node of the downBranch in this number.
 //The nodeNumbers start at 0, juntion1 is the nodenumber of the first junction.
 	
-	//The multipliers on the fitness are incorrect as of now for testing purposes on the down and up branches
 	
 
 public static Phenotype getFirst(int mainbranchNumber, double localMax, double globalMax, int junction1, double localMin, int downBranchNumber, int upBranchNumber) {
@@ -43,7 +42,10 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 		List<Phenotype> neighbors = new ArrayList<Phenotype>();
 		mainBranch.add(new ExaptPhenotype(k, stepSize1*k, neighbors));
 		if( k== mainbranchNumber - 1) {
-		//	System.out.print("g" +  k*stepSize1 + "g");
+	//	System.out.println("New Branch Local" +  k*stepSize1);
+		}
+		if(k == 0) {
+		//	System.out.println("Node A"+ stepSize1*k);
 		}
 	}
 	//Finds the junction
@@ -56,7 +58,7 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 		double ytb = (stepSize1*junctionA- h*stepSize2);
 		mainBranch.add(new ExaptPhenotype(mainbranchNumber + h, ytb, neighbors2));
 		if(h == downBranchNumber) {
-		//	System.out.print("u" + (stepSize1*junctionA- h*stepSize2) + "u");
+		//	System.out.println("LocalMin" + ytb);
 		}
 	}
 //

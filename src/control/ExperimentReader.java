@@ -187,26 +187,7 @@ public class ExperimentReader {
 		
 	}
 	public static void runAndPrint() throws IOException {
-		//Old code
-//		for(int i = 1; i < Constants.NUM_GENERATIONS + 1; i++) {
-//		//	ExperimentWriter writer = new ExperimentWriter();
-//			ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+i+"");
-//			
-//				Simulation sim = new Simulation();
-//				sim.runSimulation();
-//				ArrayList<Generation> gens = sim.getGenerations();
-//				System.out.println(gens.size());
-//				for(int k = 0; k < gens.size(); k++) {
-//				//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-//					writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-//				}
-//				writer2.closePrintWriter();
-//				
-//			}
-		
-			//	ExperimentWriter writer = new ExperimentWriter();
-				
-				//Problem fixed 
+	
 					Simulation sim = new Simulation();
 					sim.runSimulation();
 					ArrayList<Generation> gens = sim.getGenerations();
@@ -218,7 +199,7 @@ public class ExperimentReader {
 						writer2.closePrintWriter();
 					}
 					
-					
+				
 				
 	
 		
@@ -230,6 +211,21 @@ public class ExperimentReader {
 		
 		
 	}
+	public static ArrayList<ArrayList> runAndSave() throws IOException {
+		
+		Simulation sim = new Simulation();
+		sim.runSimulation();
+		ArrayList<Generation> gens = sim.getGenerations();
+		ArrayList<ArrayList> orderedPair = new ArrayList<ArrayList>();
+		for(int k = 0; k < gens.size(); k++) {
+			ArrayList pair = new ArrayList<>();
+			pair.add(k);
+			pair.add(gens.get(k));
+			orderedPair.add(pair);
+		}
+		return orderedPair;
+		
+}
 	
 	
 	
@@ -318,6 +314,78 @@ public class ExperimentReader {
 		}
 		
 		return newPrograms;
+		
+	}
+	
+	public static int readAgentsFromComputerNotFile(int stoppingGenNum, int startingGenNum, ArrayList<Generation> generations) throws IOException {
+		//Reads in important info from file
+//		String[] totalGens = ReadColumnCSV.readCol(1, file, ",");
+//		String[] agentNums = ReadColumnCSV.readCol(2, file, ",");
+//		String[] function = ReadColumnCSV.readCol(4, file, ",");
+//		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
+//		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
+//		String[] parentNum = ReadColumnCSV.readCol(9, file, ",");
+		
+		//Total number of generations
+		Generation generation = generations.get(startingGenNum);
+//		
+////		int totalGenNum = Integer.parseInt(totalGens[1]);
+//		int resumeNum = totalGenNum+1;
+		//Column Reading works
+		String functionString = Constants.FITNESS_FUNCTION_TYPE;
+		//Gets the correct fitness function
+		FitnessFunction fitFunction = null;
+		if(functionString.equals("nklandscape")) {
+			fitFunction = new NKLandscape(SeededRandom.getInstance().nextInt());
+		}else {
+			if(functionString.equals("numones")) {
+				fitFunction = new NumOnes();
+			}else {
+				if(functionString.equals("exaptfitness")) {
+					fitFunction = new ExaptFitness();
+				}else {
+					System.out.println("FITNESS_FUNCTION_TYPE not recognized");
+				}
+			}
+		}
+		//Gets the correct selection type
+		SelectionStrategy select = null;
+		if(Constants.RERUN_SELECTION_TYPE.toLowerCase().equals("truncation")) {
+			select = new SelectionTruncation();
+		}else {
+			if(Constants.RERUN_SELECTION_TYPE.toLowerCase().equals("tournament")) {
+				select = new SelectionTournament();
+			}else {
+				System.out.println("RERUN_SELECTION_TYPE not recognized");
+			}
+		}
+		
+		
+//
+//		List programList = getProgramNew(programCurrent);
+//		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
+//		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
+//		Generation gen30 = getNewGen(agList);
+//
+//		//Run all of our experiments, and write them to the file as we go. Original:
+//		long startTime = System.currentTimeMillis()/1000;
+		int finalFitCount = 0;
+		for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
+		{
+			//edit here
+			//Creates simulation using the new generation, the selected fitness function, and selection strategy
+			Simulation sim = new Simulation(generation, fitFunction, select);
+			sim.reRunSimulation(startingGenNum + 1, stoppingGenNum);
+			if(sim.getFinalFitness() == Constants.GLOBAL_MAX) {
+				finalFitCount=1;
+			}
+			//System.out.print(sim.getGenerations().get(sim.getGenerations().size() - 1).getAgents());
+		
+			}
+		
+		return finalFitCount;
+//		
+		
 		
 	}
 	

@@ -41,7 +41,7 @@ public static void newPotentiation(int potentiationType) throws IOException {
 		
 	}
 	for(int m = 0; m < numTimesReached.size(); m++) {
-		System.out.println(startGen.get(m) + ";" + exaptPercent.get(m));
+		System.out.println(startGen.get(m) + ";" + numTimesReached.get(m));
 		
 	}
 	System.out.println("HI");

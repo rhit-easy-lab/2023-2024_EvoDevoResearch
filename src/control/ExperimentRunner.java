@@ -95,6 +95,10 @@ public class ExperimentRunner {
 											String fileName = new File("output/LineageWithPotentiation.csv").getAbsolutePath();
 											
 											LineageReadIn.readAgentsLineage(fileName);
+										}else {
+											if(Constants.STATE == 14) {
+												ExperimentReader.runAndSave();
+											}
 										}
 									}
 								}
