@@ -93,15 +93,7 @@ public class Agent implements Comparable<Agent> {
 		}
 		blocks = new ArrayList<List<Step>>();
 		
-//		for(int block = 0; block < Constants.NUMBER_OF_BLOCKS; block++) {
-//			List<Step> thisBlock = new ArrayList<Step>();
-//			thisBlock.add(Step.SteepestFall);
-//			for(int stepIndex = 0; stepIndex < Constants.BLOCK_LENGTH - 1; stepIndex++) {
-//				thisBlock.add(Step.SameStep);
-//			}
-//			blocks.add(thisBlock);
-//		}
-		
+
 		
 		if(Constants.PREDETERMINED_BLOCKS == true) {
 			for(int block = 0; block < Constants.NUMBER_OF_BLOCKS; block++) {
@@ -139,43 +131,7 @@ public class Agent implements Comparable<Agent> {
 		
 		
 		
-		
-		/*
-		 * 	The hardcode to solve the setup landscape	
-		 */
-		
-//		for(int block = 0; block < Constants.NUMBER_OF_BLOCKS; block++) {
-//			List<Step> thisBlock = new ArrayList<Step>();
-//			if(block < 5) {
-//				thisBlock.add(Step.SteepestClimb);
-//				for(int stepIndex=0; stepIndex < Constants.BLOCK_LENGTH - 1; stepIndex++)
-//					{
-//						thisBlock.add(Step.SameStep);
-//					}
-//					blocks.add(thisBlock);
-//			}
-//			else {
-//				if(block < 8) {
-//					thisBlock.add(Step.SteepestFall);
-//					for(int stepIndex=0; stepIndex < Constants.BLOCK_LENGTH - 1; stepIndex++)
-//						{
-//							thisBlock.add(Step.SameStep);
-//						}
-//						blocks.add(thisBlock);
-//				}else {
-//					if(block < 12) {
-//						thisBlock.add(Step.SteepestClimb);
-//						for(int stepIndex=0; stepIndex < Constants.BLOCK_LENGTH - 1; stepIndex++)
-//							{
-//								thisBlock.add(Step.SameStep);
-//							}
-//							blocks.add(thisBlock);
-//					}
-//				}
-//			}
-		
-
-//				
+			
 		
 		//Compile the program and blocks into the strategy
 		this.compileStrategyAndInitializeHistory();
@@ -295,6 +251,7 @@ public class Agent implements Comparable<Agent> {
 		this.strategy = strategy;
 	}
 
+	
 	public static Phenotype getRandomPhenotype() {
 		switch(Constants.PHENOTYPE_TYPE.toLowerCase()) {
 			case "nkphenotype":
@@ -331,9 +288,7 @@ public class Agent implements Comparable<Agent> {
 			List<Step> block = blocks.get(blockIndex);
 			strategy.addAll(block);
 		}
-//		strategy.addAll(blocks.get(0));
-//		strategy.addAll(blocks.get(1));
-//		strategy.addAll(blocks.get(2));
+
  
  
 		
@@ -344,77 +299,7 @@ public class Agent implements Comparable<Agent> {
 		this.fitnessHistory.add(fitness);
 	}
 	
-//	private void compileStrategyAndInitializeHistory()
-//	{
-//		
-//		
-//		strategy = new ArrayList<Step>();
-//		strategy.addAll(blocks.get(0));
-//		for(int k = 0; k < Constants.PROGRAM_LENGTH; k++) {
-//			int numblocks = blocks.size();
-//			double number = Math.random();
-//			for(int h = 0; h < numblocks; h++) {
-//				if(number < (h + 1)*(1/numblocks)) {
-//					strategy.addAll(blocks.get(h));
-//				}
-//			}
-////			System.out.print("HERe");
-////			strategy.addAll(blocks.get(k));
-//		}
-//		//Old code
-//		for(Integer blockIndex : program)
-//		{
-//			List<Step> block = blocks.get(blockIndex);
-//			strategy.addAll(block);
-//		}
-//		
-//		//Experiment that worked:
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(1));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		strategy.addAll(blocks.get(2));
-////		String test = blocks.get(0).get(0).toString();
-////		if(test == "RandomWalk") {
-////			testr++;
-////		}
-////		if(test == "SteepestClimb") {
-////			testsc++;
-////		}
-////		if(test == "SteepestFall") {
-////			testsf++;
-////		}
-////		if(test == "SameStep") {
-////			testss++;
-////		}
-////		System.out.print("SteepestClimb" + testsc + "  ");
-////		System.out.print("SteepestFall" + testsf + "  ");
-////		System.out.print("SameStep" + testss + "  ");
-////		System.out.print("RandomWalk" + testr + "  ");
-//		
-//		this.phenotypeHistory = new ArrayList<Phenotype>();
-//		this.phenotypeHistory.add(phenotype);
-//		this.fitnessHistory = new ArrayList<Double>();
-//		this.fitness = fitnessFunction.getFitness(phenotype); 
-//		this.fitnessHistory.add(fitness);
-//	}
+
 	
 	/**
 	 * Method to check if the agent has executed all steps in its developmental strategy
@@ -706,6 +591,12 @@ public class Agent implements Comparable<Agent> {
 		phenotype = neighbors.get(SeededRandom.getInstance().nextInt(neighbors.size()));
 	}
 	
+	
+	/*
+	 * This step will try to repeat the action that came before it. So if a steepest climb happened before, it will climb,
+	 * and if a fall happened before, it will fall.
+	 * If a same step happens to be the first step, with no other steps before, it will default to climbing
+	 */
 	private void sameStep()
 	{
 		
@@ -805,6 +696,7 @@ public class Agent implements Comparable<Agent> {
 			return -1;
 		}
 	}
+	
 	public double getFitness() {
 		return fitness;
 	}
@@ -915,10 +807,18 @@ public class Agent implements Comparable<Agent> {
 		
 	}
 	
+	/*
+	 * This method returns whether or not this agent has reached the global fitness, 
+	 * and for our purposes most likely has had an exaptation in its lineage
+	 */
 	public boolean exaptBest() {
 		return this.getFinalFitness()==Constants.GLOBAL_MAX;
 	}
 	
+	
+	/*
+	 * This method will set the ID of the agent
+	 */
 	public void setID(int indivNum) {
 		
 		int index  = this.id.indexOf('~');
@@ -1032,11 +932,13 @@ public class Agent implements Comparable<Agent> {
 				}
 			}
 			
-			
+			// if the the parent and child have ended up in different places, report functional mutation
 			if(childCount != parentCount) {
 				this.occuredB = true;
 				conditionB = true;
 				mutation = true;
+				
+			// if the child got to the same place in a different fashion, report functional mutation as well
 			} else if(!childDir.equals(parentDir)) {
 				this.occuredB = true;
 				conditionB = true;
@@ -1063,6 +965,12 @@ public class Agent implements Comparable<Agent> {
 		
 	}
 	
+	
+	
+	/*
+	 * These three getters return if conditions A, B, and C have occured in the lineage
+	 * so far
+	 */
 	public boolean getOccuredA() {
 		return occuredA;
 	}
