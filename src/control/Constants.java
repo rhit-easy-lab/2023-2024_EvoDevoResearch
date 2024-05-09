@@ -70,6 +70,10 @@ public class Constants {
 	public static final String LINEAGE_FILENAME = PropParser.getProperty("lineageFile");
 	public static final String CONDITION_FILENAME = PropParser.getProperty("conditionFile");
 	public static final String LINEAGE_POT_FILENAME = PropParser.getProperty("lineagePotFile");
+
+//toggling random blocks or not
+	public static final boolean PREDETERMINED_BLOCKS = Boolean.parseBoolean(PropParser.getProperty("predeterminedBlocks"));
+
 	
 	
 }

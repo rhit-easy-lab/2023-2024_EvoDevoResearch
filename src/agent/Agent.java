@@ -103,14 +103,37 @@ public class Agent implements Comparable<Agent> {
 //		}
 		
 		
-		for(int block = 0; block < Constants.NUMBER_OF_BLOCKS; block++) {
-			List<Step> thisBlock = new ArrayList<Step>();
-			thisBlock.add(Step.SteepestClimb);
-			for(int stepIndex = 0; stepIndex < Constants.BLOCK_LENGTH - 1; stepIndex++) {
-				thisBlock.add(Step.SameStep);
+		if(Constants.PREDETERMINED_BLOCKS == true) {
+			for(int block = 0; block < Constants.NUMBER_OF_BLOCKS; block++) {
+				List<Step> thisBlock = new ArrayList<Step>();
+				thisBlock.add(Step.SteepestClimb);
+				for(int stepIndex = 0; stepIndex < Constants.BLOCK_LENGTH - 1; stepIndex++) {
+					thisBlock.add(Step.SameStep);
+				}
+				blocks.add(thisBlock);
 			}
-			blocks.add(thisBlock);
 		}
+		else {
+			System.out.println("Running random blocks");
+			for(int block = 0; block < Constants.NUMBER_OF_BLOCKS; block++) {
+				List<Step> thisBlock = new ArrayList<Step>();
+				double check = 0;
+				for(int stepIndex = 0; stepIndex < Constants.BLOCK_LENGTH; stepIndex++) {
+					check = SeededRandom.getInstance().nextDouble();
+					if(check < 0.33333) {
+						thisBlock.add(Step.SteepestClimb);
+					} else if(check < 0.6666666) {
+						thisBlock.add(Step.SameStep);
+					} else {
+						thisBlock.add(Step.SteepestFall);
+					}
+				}
+				blocks.add(thisBlock);
+			}
+		}
+		
+		
+		
 		
 		
 		
@@ -810,6 +833,9 @@ public class Agent implements Comparable<Agent> {
 	}
 	
 	
+	/*
+	 * This will print out information about this agent in the file written to by the given printWriter
+	 */
 	public void printLineage(PrintWriter out, int simulationNum, int genIndex) {
 		StringBuilder line = new StringBuilder();
 		
@@ -878,17 +904,6 @@ public class Agent implements Comparable<Agent> {
 			}
 
 		}
-		
-
-		
-	
-
-		
-		
-
-		
-		
-//			line.append("PLACEHOLDER,"); // TODO replace with actual parent number
 		
 		
 		line.replace(line.length()-1, line.length(), "\n"); // replace the extra comma with a next line

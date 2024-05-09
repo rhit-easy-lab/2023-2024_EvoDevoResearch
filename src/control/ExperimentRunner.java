@@ -94,7 +94,7 @@ public class ExperimentRunner {
 											///EvoDevoNKFLCoreMerged/output/LineageWithPotentiation.csv
 											String fileName = new File("output/LineageWithPotentiation.csv").getAbsolutePath();
 											
-											LineageReadIn.readAgentsLineage(fileName);
+//											LineageReadIn.readAgentsLineage(fileName);
 										}
 									}
 								}
