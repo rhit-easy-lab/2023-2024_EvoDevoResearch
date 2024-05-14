@@ -108,34 +108,24 @@ public static void runForGenStepSize(String file,int constNum) throws IOExceptio
 	}
 	
 	
-//	public static int repeatReaderNewest(int yesNo, ArrayList<Generation> gens, int resumeNum) throws IOException {
-//		int count = 0;
-//		//Gets number to resume on
-//		//Make this work from generations
-//		if(yesNo == 0) {
-//			//ReadAgents runs the file
-//			for(int tot = 0; tot < Constants.POTENTIATION_RUN_NUM; tot++) {
-//				
-//				int tester = ExperimentReader.readAgentsFromComputerNotFile(resumeNum, Constants.CONSTANT_POTENTIATION_RUN_NUM, gens);
-//
-//				if(tester>0) {
-//					count++;
-//				}
-//			}
-//		}else {
-//			for(int tot = 0; tot < Constants.POTENTIATION_RUN_NUM; tot++) {
-//				
-//				int tester = ExperimentReader.readAgents(file, Constants.CONSTANT_POTENTIATION_RUN_NUM + resuming);
-//
-//				if(tester>0) {
-//					count++;
-//				}
-//			}
-//		}
-//		
-//		//Number getting final fitness from some run
-//		return count;
-//		
-//	}
+	public static int repeatReaderNewest(ArrayList<Generation> gens, int resumeNum) throws IOException {
+		int count = 0;
+		//Gets number to resume on
+		//Make this work from generations
+			//ReadAgents runs the file
+			for(int tot = 0; tot < Constants.POTENTIATION_RUN_NUM; tot++) {
+				
+				int tester = ExperimentReader.readAgentsFromComputerNotFile(resumeNum, Constants.CONSTANT_POTENTIATION_RUN_NUM + resumeNum, gens);
+
+				if(tester>0) {
+					count++;
+				}
+			
+		}		
+		
+		//Number getting final fitness from some run
+		return count;
+		
+	}
 
 }

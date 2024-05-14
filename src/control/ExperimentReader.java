@@ -218,6 +218,7 @@ public class ExperimentReader {
 		ArrayList<Generation> gens = sim.getGenerations();
 		ArrayList<ArrayList> orderedPair = new ArrayList<ArrayList>();
 		for(int k = 0; k < gens.size(); k++) {
+			//List of generations paired with gen number
 			ArrayList pair = new ArrayList<>();
 			pair.add(k);
 			pair.add(gens.get(k));

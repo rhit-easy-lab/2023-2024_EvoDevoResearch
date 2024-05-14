@@ -93,12 +93,13 @@ public class ExperimentRunner {
 										if(Constants.STATE == 13) {
 											///EvoDevoNKFLCoreMerged/output/LineageWithPotentiation.csv
 											String fileName = new File("output/LineageWithPotentiation.csv").getAbsolutePath();
-											
+									
 											LineageReadIn.readAgentsLineage(fileName);
 										}else {
 											if(Constants.STATE == 14) {
 												ExperimentReader.runAndSave();
 											}
+
 										}
 									}
 								}

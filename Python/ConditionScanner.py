@@ -42,12 +42,12 @@ for gen in generations:
     
 
 ax = plt.subplot()
-ax.plot(xaxis, genA, label = "%A")
-ax.plot(xaxis, genB, label = "%B")
-ax.plot(xaxis, genC, label = "%C")
-ax.plot(xaxis, genBC, label = "%BC")
-ax.plot(xaxis, avgFit, label = "%avg")
-ax.plot(xaxis, bestFit, label = "%best")
+ax.plot(xaxis, genA, label = "%BCM")
+ax.plot(xaxis, genB, label = "%BFM")
+ax.plot(xaxis, genC, label = "%BIM")
+
+ax.plot(xaxis, avgFit, label = "avg fitness")
+ax.plot(xaxis, bestFit, label = "best fitness")
 
 if(ask != "0"):
     file2 = askopenfilename()
@@ -61,17 +61,25 @@ if(ask != "0"):
         gendata2 = df2.loc[df['Generation'] == gen]
         pot.append(gendata2.loc[:, 'potentiation'].tolist())
 
-    ax.plot(xaxis, pot, label = "%potentation")
+    ax.plot(xaxis, pot, label = "potentiation", color='pink')
     
 
 
 
 
 #Make our plot
-plt.title('Condition % met over Generational Time')
-ax.set_xlabel('Generations')
-ax.set_ylabel('% Condition Met')
-plt.legend(loc="lower right")
+plt.title('Mutation % met over Generational Time', size=30)
+ax.set_xlabel('Generations',fontsize=30)
+ax.set_ylabel('% Mutations Met',fontsize=30)    
+plt.legend(loc="lower right",fontsize=25)
+ax.tick_params(axis='both', labelsize=15)
+
+
+plt.rc('font' , size=30)
+plt.rc('legend' , fontsize=300)
+plt.rc('figure' , titlesize=34)
+plt.rc('axes' , labelsize=30)
+
 
 # Display our plot
 plt.show()
