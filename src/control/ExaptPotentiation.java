@@ -115,7 +115,7 @@ public static void runForGenStepSize(String file,int constNum) throws IOExceptio
 			//ReadAgents runs the file
 			for(int tot = 0; tot < Constants.POTENTIATION_RUN_NUM; tot++) {
 				
-				int tester = ExperimentReader.readAgentsFromComputerNotFile(resumeNum, Constants.CONSTANT_POTENTIATION_RUN_NUM + resumeNum, gens);
+				int tester = ExperimentReader.readAgentsFromComputerNotFile(Constants.CONSTANT_POTENTIATION_RUN_NUM + resumeNum, resumeNum, gens);
 
 				if(tester>0) {
 					count++;

@@ -319,21 +319,10 @@ public class ExperimentReader {
 	}
 	
 	public static int readAgentsFromComputerNotFile(int stoppingGenNum, int startingGenNum, ArrayList<Generation> generations) throws IOException {
-		//Reads in important info from file
-//		String[] totalGens = ReadColumnCSV.readCol(1, file, ",");
-//		String[] agentNums = ReadColumnCSV.readCol(2, file, ",");
-//		String[] function = ReadColumnCSV.readCol(4, file, ",");
-//		String[] blockOptions = ReadColumnCSV.readCol(5, file, ",");
-//		String[] programCurrent = ReadColumnCSV.readCol(6, file, ",");
-//		String[] parentNum = ReadColumnCSV.readCol(9, file, ",");
-		
-		//Total number of generations
+
 		Generation generation = generations.get(startingGenNum);
-//		
-////		int totalGenNum = Integer.parseInt(totalGens[1]);
-//		int resumeNum = totalGenNum+1;
-		//Column Reading works
-		String functionString = Constants.FITNESS_FUNCTION_TYPE;
+
+		String functionString = Constants.FITNESS_FUNCTION_TYPE.toLowerCase();
 		//Gets the correct fitness function
 		FitnessFunction fitFunction = null;
 		if(functionString.equals("nklandscape")) {
@@ -361,15 +350,6 @@ public class ExperimentReader {
 			}
 		}
 		
-		
-//
-//		List programList = getProgramNew(programCurrent);
-//		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
-//		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
-//		Generation gen30 = getNewGen(agList);
-//
-//		//Run all of our experiments, and write them to the file as we go. Original:
-//		long startTime = System.currentTimeMillis()/1000;
 		int finalFitCount = 0;
 		for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
 		{
@@ -383,7 +363,6 @@ public class ExperimentReader {
 			//System.out.print(sim.getGenerations().get(sim.getGenerations().size() - 1).getAgents());
 		
 			}
-		
 		return finalFitCount;
 //		
 		

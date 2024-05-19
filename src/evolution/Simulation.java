@@ -145,6 +145,10 @@ public class Simulation {
 		initialGeneration.executeAllStrategies();
 		generations.add(initialGeneration);
 	}
+	public ArrayList<Generation> returnGenSimulation()
+	{
+		return generations;
+	}
 	
 	public Simulation(Generation initialGeneration, FitnessFunction fitFunction, SelectionStrategy selectStrategy)
 	{
@@ -207,6 +211,7 @@ public class Simulation {
 			//make and run the next generation
 			Generation nextGeneration = selectionStrategy.getNextGeneration(generations.get(generations.size()-1));
 			nextGeneration.executeAllStrategies();
+			System.out.println("append gen: "+generationNumber);
 			generations.add(nextGeneration);
 			
 			int condA = 0;

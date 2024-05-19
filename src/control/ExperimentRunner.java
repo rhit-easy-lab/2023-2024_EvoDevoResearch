@@ -98,6 +98,15 @@ public class ExperimentRunner {
 										}else {
 											if(Constants.STATE == 14) {
 												ExperimentReader.runAndSave();
+											}else {
+												if(Constants.STATE == 15) {
+													Simulation sim = new Simulation();
+													sim.runSimulation();
+													ArrayList<Generation> gen = sim.returnGenSimulation();
+													System.out.println("GenerationSize" + gen.size() + "!");
+													//CleanPotentiation clean = new CleanPotentiation();
+													CleanPotentiation.newCleanPotentiation(gen);
+												}
 											}
 
 										}
