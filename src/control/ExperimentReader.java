@@ -187,8 +187,8 @@ public class ExperimentReader {
 		
 	}
 	public static void runAndPrint() throws IOException {
-	
-					Simulation sim = new Simulation();
+	//Test -1: RETURN TO NORMAL
+					Simulation sim = new Simulation(-1);
 					sim.runSimulation();
 					ArrayList<Generation> gens = sim.getGenerations();
 					System.out.println(gens.size());

@@ -148,7 +148,17 @@ public class ExperimentRunner {
 				for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++){
 					Simulation sim = new Simulation(exaptFile);
 						sim.runSimulation();
+						//NEWEST:
 						writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
+						ArrayList<Generation> generations1 = sim.getGenerations();
+						for(int k = 0; k < generations1.size(); k++) {
+							ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(k)+"");
+						//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
+							writer2.writeGen(generations1.get(k), Integer.toString(k), Constants.GENERATION_SIZE);
+							writer2.closePrintWriter();
+						}
+						
+						
 						
 						long endTime = System.currentTimeMillis()/1000;
 						long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
