@@ -729,6 +729,7 @@ public class Agent implements Comparable<Agent> {
 	 * This will print out information about this agent in the file written to by the given printWriter
 	 */
 	public void printLineage(PrintWriter out, int simulationNum, int genIndex) {
+		System.out.println("TURN ^");
 		StringBuilder line = new StringBuilder();
 		
 		// Simulation

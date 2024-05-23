@@ -4,6 +4,8 @@ import control.ExperimentReader;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 
 import evolution.Generation;
@@ -106,7 +108,29 @@ public class ExperimentRunner {
 													System.out.println("GenerationSize" + gen.size() + "!");
 													//CleanPotentiation clean = new CleanPotentiation();
 													CleanPotentiation.newCleanPotentiation(gen);
-												}
+												}else {
+													if(Constants.STATE == 16) {
+														for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
+														{
+															//Part 1
+															System.out.println("PART 1");
+															Simulation sim = new Simulation();
+															System.out.println("PART 2");
+															sim.runSimulation();
+															System.out.println("PART 3");
+															ArrayList<Generation> gen = sim.getGenerations();
+															System.out.println("PART 4");
+															File fileNewest = new File("TestingFile");
+														    PrintWriter writeIt = new PrintWriter(fileNewest);
+															gen.get(gen.size()-1).getBest().printLineage(writeIt, 1, 100);
+															System.out.println("PART 5");
+														
+														}
+														
+														
+															
+														}
+													}
 											}
 
 										}
@@ -157,9 +181,6 @@ public class ExperimentRunner {
 							writer2.writeGen(generations1.get(k), Integer.toString(k), Constants.GENERATION_SIZE);
 							writer2.closePrintWriter();
 						}
-						
-						
-						
 						long endTime = System.currentTimeMillis()/1000;
 						long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
 						System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);

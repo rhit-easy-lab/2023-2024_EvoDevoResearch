@@ -37,7 +37,7 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 	List<Phenotype> mainBranch = new ArrayList<Phenotype>();
 	List<ArrayList<Phenotype>> edges = new ArrayList<ArrayList<Phenotype>>();
 	double stepSize1 = localMax/(mainbranchNumber - 1);
-	System.out.println("UP STEP SIZE " + stepSize1 + "!");
+//	System.out.println("UP STEP SIZE " + stepSize1 + "!");
 	//Makes the main Branch
 	for(int k = 0; k < mainbranchNumber; k++) {
 		List<Phenotype> neighbors = new ArrayList<Phenotype>();
@@ -54,7 +54,7 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 	//Makes the downwards branch
 	
 	double stepSize2 = (junctionA*stepSize1 - localMin)/downBranchNumber;
-	System.out.println("DOWN STEP SIZE " + stepSize2 + "!");
+//	System.out.println("DOWN STEP SIZE " + stepSize2 + "!");
 	for(int h = 1; h < downBranchNumber + 1; h++) {
 		List<Phenotype> neighbors2 = new ArrayList<Phenotype>();
 		//2*h as a test
