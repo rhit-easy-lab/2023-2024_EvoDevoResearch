@@ -352,6 +352,7 @@ public class Simulation {
 		}
 
 		if(guy != null) {
+			System.out.println("PART 6");
 			this.setUpPrinting(guy);
 	
 		}

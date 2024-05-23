@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import agent.Agent;
 import evolution.Generation;
 import evolution.Simulation;
 
@@ -113,17 +114,15 @@ public class ExperimentRunner {
 														for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
 														{
 															//Part 1
-															System.out.println("PART 1");
 															Simulation sim = new Simulation();
-															System.out.println("PART 2");
 															sim.runSimulation();
-															System.out.println("PART 3");
 															ArrayList<Generation> gen = sim.getGenerations();
-															System.out.println("PART 4");
-															File fileNewest = new File("TestingFile");
-														    PrintWriter writeIt = new PrintWriter(fileNewest);
-															gen.get(gen.size()-1).getBest().printLineage(writeIt, 1, 100);
-															System.out.println("PART 5");
+															
+															//File fileNewest = new File("TestingFile");
+														   // PrintWriter writeIt = new PrintWriter(fileNewest);
+														    sim.printLineage();
+															Agent test = gen.get(gen.size()-1).getBest();
+															sim.setUpPrinting(test);
 														
 														}
 														
