@@ -33,12 +33,12 @@ public class LineageReadIn {
 	
 	public static void readAgentsLineage(String file) throws IOException {
 		//Reads in important info from file
-		String[] genNumberThing = ReadColumnCSV.readCol(0, file, ",");
+		String[] genNumberThing = ReadColumnCSV.readCol(1, file, ",");
 		System.out.println(genNumberThing.length);
-		String[] fitnessReadThing = ReadColumnCSV.readCol(4, file, ",");
-		String[] agentIDs = ReadColumnCSV.readCol(2, file, ",");
-		String[] blockOptions = ReadColumnCSV.readCol(6, file, ",");
-		String[] programCurrent = ReadColumnCSV.readCol(8, file, ",");
+		String[] fitnessReadThing = ReadColumnCSV.readCol(2, file, ",");
+		String[] agentIDs = ReadColumnCSV.readCol(3, file, ",");
+		String[] blockOptions = ReadColumnCSV.readCol(9, file, ",");
+		String[] programCurrent = ReadColumnCSV.readCol(10, file, ",");
 		ArrayList<ArrayList<String>> agentLists = new ArrayList<ArrayList<String>>();
 		for(int i = 1; i < genNumberThing.length; i++) {
 			ArrayList<String> agent = new ArrayList<String>();

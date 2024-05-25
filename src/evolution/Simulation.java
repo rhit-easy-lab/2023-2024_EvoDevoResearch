@@ -296,6 +296,7 @@ public class Simulation {
 			
 			
 			this.printLineage();
+			this.printLineageTest();
 		}
 		
 		out.close();
@@ -348,6 +349,24 @@ public class Simulation {
 
 		if(guy != null) {
 			this.setUpPrinting(guy);
+	
+		}
+		
+	}
+	
+	
+	public void printLineageTest() {
+		Agent guy = null;
+		//finds the latest max fitness one? I'll change this once we've decided what we want to focus on.
+		for(int i = generations.size() - 1; i > -1; i--) {
+			if(generations.get(i).getBest().exaptBest()) {
+				guy = generations.get(i).getBest();
+				break;
+			}
+		}
+
+		if(guy != null) {
+			this.setUpPrintingTesting(guy);
 	
 		}
 		
@@ -424,8 +443,61 @@ public class Simulation {
 		System.out.println("Lineage written");
 		
 	}
+	//TESTING
 	
 	
+	
+	public void setUpPrintingTesting(Agent guy) {
+		File file;
+
+		if(exaptNum != -1)
+			file = new File("output/" + Constants.LINEAGE_POT_FILENAME + "_" + exaptNum + ".csv");
+		else
+			file = new File("output/" + Constants.LINEAGE_POT_FILENAME + ".csv");
+		
+		file.getParentFile().mkdirs();
+		
+		PrintWriter out;
+		try {
+			out = new PrintWriter(new BufferedWriter(new FileWriter(file)));
+		} catch (IOException e) {
+		
+			e.printStackTrace();
+			return;
+		}
+		
+
+		
+
+		//Creates a header
+		StringBuilder line = new StringBuilder();
+		line.append("Run,");
+		line.append("Generation,");
+		line.append("Final_Fitness,");
+		line.append("Agent_ID,");
+		line.append("Cond A,");
+		line.append("Cond B,");
+		line.append("Cond C,");
+	
+		line.append("Function,");
+		line.append(",");
+		line.append("Block,");
+		line.append("Program,");
+		
+		//spacing
+		line.append(" ,");
+		
+		
+		line.replace(line.length()-1, line.length(), "\n"); //replace the extra comma with a next line
+		out.print(line);
+		
+		guy.printLineageTest(out, 1, generations.size()-1);
+		
+		out.close();
+		
+		System.out.println("Lineage written");
+		
+	}
 	
 	
 	

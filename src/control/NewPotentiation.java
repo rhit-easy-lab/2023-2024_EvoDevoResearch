@@ -44,7 +44,6 @@ public static void newPotentiation(int potentiationType) throws IOException {
 		System.out.println(startGen.get(m) + ";" + exaptPercent.get(m));
 		
 	}
-	System.out.println("HI");
 	CSVWriterSample.csvWrite(exaptPercent, startGen);
 }
 }

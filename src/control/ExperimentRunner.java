@@ -38,7 +38,7 @@ public class ExperimentRunner {
 			System.out.println("No configuration file specified. Continuing with default paramaters.");
 		//	PropParser.load(PropParser.defaultFilename);
 		}if(Constants.STATE == 10) {
-			System.out.println("JELLO");
+//			System.out.println("JELLO");
 		NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
 	}else {
 		if(Constants.STATE == 2) {
@@ -92,7 +92,7 @@ public class ExperimentRunner {
 									}else {
 										if(Constants.STATE == 13) {
 											///EvoDevoNKFLCoreMerged/output/LineageWithPotentiation.csv
-											String fileName = new File("output/LineageWithPotentiation.csv").getAbsolutePath();
+											String fileName = new File("output/" + Constants.LINEAGE_POT_FILENAME + ".csv").getAbsolutePath();
 											
 											LineageReadIn.readAgentsLineage(fileName);
 										}
@@ -109,15 +109,19 @@ public class ExperimentRunner {
 		long startTime = System.currentTimeMillis()/1000;
 
 		if(Constants.STATE == 0) {
-			for(int gen = 0; gen < Constants.NUM_GENERATIONS; gen++) {
-				Simulation sim = new Simulation();
-				
-				sim.runSimulation();
-				if(gen == Constants.GEN_STOP_NUM) {
-					sim.runSimulation(Constants.GEN_STOP_NUM);
-					writer.writeGen(sim.getGenerations().get(gen - 1), Integer.toString(gen), Constants.GENERATION_SIZE);
-				}
-			}
+			Simulation sim = new Simulation();
+			sim.runSimulation(Constants.GEN_STOP_NUM);
+			writer.writeGen(sim.getGenerations().get(Constants.GEN_STOP_NUM - 1), Integer.toString(Constants.GEN_STOP_NUM), Constants.GENERATION_SIZE);
+
+//			for(int gen = 0; gen < Constants.NUM_GENERATIONS; gen++) {
+//				Simulation sim = new Simulation();
+//				
+//				sim.runSimulation();
+//				if(gen == Constants.GEN_STOP_NUM) {
+//					sim.runSimulation(Constants.GEN_STOP_NUM);
+//					writer.writeGen(sim.getGenerations().get(gen - 1), Integer.toString(gen), Constants.GENERATION_SIZE);
+//				}
+//			}
 		}else {
 			if(Constants.STATE == 1) {
 				for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)

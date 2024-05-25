@@ -900,6 +900,128 @@ public class Agent implements Comparable<Agent> {
 		
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	public void printLineageTest(PrintWriter out, int simulationNum, int genIndex) {
+		StringBuilder line = new StringBuilder();
+		
+		// Simulation
+		line.append(simulationNum+",");
+
+		// Generation
+		line.append(ExperimentWriter.toCSVDelimited(genIndex+""));
+		
+		// Final Fitness
+		line.append(""+this.getFinalFitness()+',');
+
+		// Agent Number
+		line.append(this.getID()+",");
+		
+		// Reached Condition A
+		line.append(this.conditionA+",");
+		
+		// Condition B
+		line.append(this.conditionB+",");
+		
+		//Condition C
+		line.append(this.conditionC+",");
+		
+		
+		
+		
+		if(true) {
+			line.append(ExperimentWriter.toCSVDelimited(Constants.FITNESS_FUNCTION_TYPE));//TODO make this better so that it can include more details
+		}
+		
+		//spacing
+		line.append(" ,");
+		
+
+		List<List<Step>> tableBlocks = this.getBlocks();
+		String blocklistthing = "";
+		for(int i = 0;i < tableBlocks.size(); i++) {
+			String blockThing = "{";
+			List<Step> block = tableBlocks.get(i);
+			int index = 0;
+			for(Step s : block) {
+				index = index + 1;
+				if(index == block.size()) {
+					blockThing = blockThing + s.toString();
+				}else {
+					blockThing = blockThing + s.toString() + ":";
+					
+				}
+			}
+			if(i != (tableBlocks.size() - 1)) {
+				blockThing = blockThing + "};";
+			}else {
+				blockThing = blockThing + "}";
+			}
+			
+		blocklistthing = blocklistthing + blockThing;
+		}
+		line.append(blocklistthing);
+		line.append(" ,");
+		
+		String programListThing = "";
+		for(int k = 0; k < this.getProgram().size(); k++) {
+			if(k != (this.getProgram().size() - 1)) {
+				programListThing = programListThing + this.getProgram().get(k).toString() + "|";
+			}else {
+				programListThing = programListThing + this.getProgram().get(k).toString();
+			}
+			
+		}
+		line.append(programListThing);
+		line.append(",");
+//		
+//		if(true) {
+//			StringBuilder sb = new StringBuilder();
+//			if(Constants.PROGRAM_LENGTH > 0)
+//			{
+//			for(Integer block : this.getProgram()) {
+//				line.append(block);
+//				line.append(",");
+//			}
+//
+//			}
+//
+//		}
+		
+
+		
+	
+
+		
+		
+
+		
+		
+//			line.append("PLACEHOLDER,"); // TODO replace with actual parent number
+		
+		
+		line.replace(line.length()-1, line.length(), "\n"); // replace the extra comma with a next line
+		out.print(line);
+		if(this.parent != null)
+			this.parent.printLineageTest(out, simulationNum, genIndex-1);
+		else
+			return;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public boolean exaptBest() {
 		return this.getFinalFitness()==Constants.GLOBAL_MAX;
 	}
