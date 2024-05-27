@@ -10,7 +10,7 @@ from tkinter.filedialog import askopenfilename
 file = askopenfilename()
 df = pd.read_csv(file)
 
-ask = input("Do you want to read in potentiation as well? Enter 0 for no, 1 for yes")
+#ask = input("Do you want to read in potentiation as well? Enter 0 for no, 1 for yes")
 
 
 
@@ -27,6 +27,7 @@ genC = []
 genBC = []
 avgFit = []
 bestFit = []
+potentiation = []
 lower_errors = []
 upper_errors = []
 xaxis = generations
@@ -37,8 +38,9 @@ for gen in generations:
     genB.append(gendata.loc[:,'B'].tolist())
     genC.append(gendata.loc[:, 'C'].tolist())
     genBC.append(gendata.loc[:, 'BC'].tolist())
-    avgFit.append(gendata.loc[:, 'avgFit'].tolist())
-    bestFit.append(gendata.loc[:, 'bestFit'].tolist())
+    avgFit.append(gendata.loc[:, 'AvgFit'].tolist())
+    bestFit.append(gendata.loc[:, 'BestFit'].tolist())
+    potentiation.append(gendata.loc[:, 'Potentiation'].tolist())
     
 
 ax = plt.subplot()
@@ -48,20 +50,21 @@ ax.plot(xaxis, genC, label = "%C")
 ax.plot(xaxis, genBC, label = "%BC")
 ax.plot(xaxis, avgFit, label = "%avg")
 ax.plot(xaxis, bestFit, label = "%best")
+ax.plot(xaxis, potentiation, label = "%Potentiation")
 
-if(ask != "0"):
-    file2 = askopenfilename()
-    df2 = pd.read_csv(file2)
+# if(ask != "0"):
+#     file2 = askopenfilename()
+#     df2 = pd.read_csv(file2)
 
-    generationsAll2 = df2.loc[:, 'Generation'].tolist()
-    generations2 = [*set(generationsAll2)]
+#     generationsAll2 = df2.loc[:, 'Generation'].tolist()
+#     generations2 = [*set(generationsAll2)]
 
-    pot = []
-    for gen in generations2:
-        gendata2 = df2.loc[df['Generation'] == gen]
-        pot.append(gendata2.loc[:, 'potentiation'].tolist())
+#     pot = []
+#     for gen in generations2:
+#         gendata2 = df2.loc[df['Generation'] == gen]
+#         pot.append(gendata2.loc[:, 'potentiation'].tolist())
 
-    ax.plot(xaxis, pot, label = "%potentation")
+#     ax.plot(xaxis, pot, label = "%potentation")
     
 
 

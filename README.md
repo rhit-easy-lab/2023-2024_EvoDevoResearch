@@ -15,5 +15,9 @@ trials in which the highest possible fitness was reached. It then prints the gen
 #Run Instructions
 To run constant potentiation, first run state 1 and then run state 3 with the desired parameters. This is needed because state 1 generates the files which state 3 runs from. To run cloning potentiation, run state 1, then state 2, and then run state 3 with the desired parameters.
 
-#Graphing Instructions
-[FILL IN]
+#Graphing Instructions for Potentiation
+
+To graph the conditions and the potentiation results, go to the file labeled "Python" and open "ConditionScanner.py" on the IDE of your choice. Run "ConditionScanner.py". There will be a pop-up that asks for a file to graph. To graph the conditions and potentiation data, select the file that has the title that you
+entered in the "finalFilename" field in the "myConfig.properties" in the "output" file for this project. To graph the conditions, select the file that has the title that you entered in the "conditionFile" field in the "myConfig.properties" file, which should be in the "output" file for this project.
+
+#Graphing Instructions for Lineage
