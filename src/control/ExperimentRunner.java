@@ -50,7 +50,6 @@ public class ExperimentRunner {
 			break;
 		case 2:
 			String fileName = new File("output/" + Constants.LINEAGE_POT_FILENAME + ".csv").getAbsolutePath();
-			
 			LineageReadIn.readAgentsLineage(fileName);
 			break;
 		case 3:
