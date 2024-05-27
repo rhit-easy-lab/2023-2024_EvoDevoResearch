@@ -8,7 +8,7 @@ In order to replicate an experiment, change the seed to the given seed in the co
 
 2: This state reads in the .csv lineage file with the name given in the "lineagePotFile" field and re-instantiates each agent. It then creates the number in the field "numGenerations" generations, each generation populated with the number in the field "generationSize" clones of the agent in the lineage at that generation.
 
-3: Calculates the number h such that h is the greatest integer such that h*p, where p is the integer in the field "stepSizeNum", is less than or equal to the integer specified in the field "numGenerations". For each nonnegative integer of the form i*p where i is a nonnegative integer
+3: Calculates the number h such that h is the greatest integer such that h(p), where p is the integer in the field "stepSizeNum", is less than or equal to the integer specified in the field "numGenerations". For each nonnegative integer of the form i(p) where i is a nonnegative integer
 less than or equal to the integer specified in the field "numGenerations", it reads the file "GenerationAtk", where k is between 0 and the integer specified in the field "numGenerations", and re-runs the simulation from that generation for the number of generations specified in "potentiationRunNum". It runs the number of trials specified in the field "constantPotentiationRunNum" for each such generation, and calculates the percentage of those
 trials in which the highest possible fitness was reached. It then prints the generation number and the corresponding percentage of trials that reached the highest possible fitness to a file with the title "Potentiation.csv".
 
