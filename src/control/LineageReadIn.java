@@ -86,77 +86,18 @@ public class LineageReadIn {
 		}
 			
 		for(int m = 0; m < generationList.size(); m++) {
-				ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(m )+"");
+				ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(m)+"");
 				writer2.writeGen(generationList.get(m), genNumberThing[genNumberThing.length- (m + 1)], Constants.GENERATION_SIZE, inties.get(inties.size() - (m + 1)));
 				writer2.closePrintWriter();
 			
 		}
 	}
 		
-//		//Total number of generations
-//		int totalGenNum = Integer.parseInt(totalGens[1]);
-//		int resumeNum = totalGenNum+1;
-//		//Column Reading works
-//		String functionString = function[1].toLowerCase();
-//		//Gets the correct fitness function
-//		FitnessFunction fitFunction = null;
-//		if(functionString.equals("nklandscape")) {
-//			fitFunction = new NKLandscape(SeededRandom.getInstance().nextInt());
-//		}else {
-//			if(functionString.equals("numones")) {
-//				fitFunction = new NumOnes();
-//			}else {
-//				if(functionString.equals("exaptfitness")) {
-//					fitFunction = new ExaptFitness();
-//				}else {
-//					System.out.println("FITNESS_FUNCTION_TYPE not recognized");
-//				}
-//			}
-//		}
-//		//Gets the correct selection type
-//		SelectionStrategy select = null;
-//		if(Constants.RERUN_SELECTION_TYPE.toLowerCase().equals("truncation")) {
-//			select = new SelectionTruncation();
-//		}else {
-//			if(Constants.RERUN_SELECTION_TYPE.toLowerCase().equals("tournament")) {
-//				select = new SelectionTournament();
-//			}else {
-//				System.out.println("RERUN_SELECTION_TYPE not recognized");
-//			}
-//		}
-//		
-//		
-//
-//		List programList = getProgramNew(programCurrent);
-//		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
-//		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
-//		Generation gen30 = getNewGen(agList);
-//
-//		//Run all of our experiments, and write them to the file as we go. Original:
-//		long startTime = System.currentTimeMillis()/1000;
-//		int finalFitCount = 0;
-//		for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
-//		{
-//			//edit here
-//			//Creates simulation using the new generation, the selected fitness function, and selection strategy
-//			Simulation sim = new Simulation(gen30, fitFunction, select);
-//			sim.reRunSimulation(resumeNum, stoppingGenNum);
-//			if(sim.getFinalFitness() == Constants.GLOBAL_MAX) {
-//				finalFitCount=1;
-//			}
-//			//System.out.print(sim.getGenerations().get(sim.getGenerations().size() - 1).getAgents());
-//		
-//			}
-//		
-//	//	writer.closePrintWriter();
-//		return finalFitCount;
-//		
 		
 		
 	
 	public static Agent generateNewAgent(String agentIDs, List<Integer> listProgram, List<List<Step>> listBlocks, FitnessFunction fittyFunc, double fitnessThing1) {
 		ArrayList<Agent> agy = new ArrayList<Agent>();
-		//Just exapt fitness for now, will change later\
 		Agent aget = new Agent(fittyFunc, listBlocks, agentIDs, listProgram, fitnessThing1);
 		
 		return aget;

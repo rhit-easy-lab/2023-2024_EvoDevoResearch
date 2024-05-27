@@ -25,7 +25,6 @@ public static void newPotentiation(int potentiationType) throws IOException {
 
 		
 		String fileName = new File("output/GenerationAt"+a+".csv").getAbsolutePath();
-		//String fileName = "C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+"GenerationAt"+a+".csv";
 		startGen.add(a);
 		System.out.println("GenerationAt"+a);
 		numTimesReached.add(ExaptPotentiation.repeatReader(potentiationType, fileName));
@@ -45,7 +44,5 @@ public static void newPotentiation(int potentiationType) throws IOException {
 		
 	}
 	CSVWriterSample.csvWrite(exaptPercent, startGen);
-	System.out.print("DONE");
 }
 }
-///EvoDevoNKFLCoreMerged/output/GenerationAt60.csv
