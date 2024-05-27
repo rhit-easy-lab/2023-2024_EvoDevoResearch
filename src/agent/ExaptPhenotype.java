@@ -42,9 +42,6 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 	for(int k = 0; k < mainbranchNumber; k++) {
 		List<Phenotype> neighbors = new ArrayList<Phenotype>();
 		mainBranch.add(new ExaptPhenotype(k, stepSize1*k, neighbors));
-		if( k== mainbranchNumber - 1) {
-		//	System.out.print("g" +  k*stepSize1 + "g");
-		}
 	}
 	//Finds the junction
 	int junctionA = junction1;
@@ -55,25 +52,15 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 		//2*h as a test
 		double ytb = (stepSize1*junctionA- h*stepSize2);
 		mainBranch.add(new ExaptPhenotype(mainbranchNumber + h, ytb, neighbors2));
-		if(h == downBranchNumber) {
-		//	System.out.print("u" + (stepSize1*junctionA- h*stepSize2) + "u");
-		}
 	}
-//
-//	double firstFitness = junctionA*stepSize1 - (downBranchNumber)*stepSize2;
 	double stepSize3 = (globalMax - localMin)/(upBranchNumber);
-//	System.out.print("!" + stepSize2 + "!");
-//	System.out.print("?" + localMin + "?");
-//	System.out.print("..." + upBranchNumber + "...");
+
 	//Makes upwards Branch
 	//upBranchNumber or upBranchNumber + 1?
 	for(int m = 1; m < upBranchNumber + 1; m++) {
 		List<Phenotype> neighbors3 = new ArrayList<Phenotype>();
 		double yta = localMin + (m)*stepSize3;
 		mainBranch.add(new ExaptPhenotype((mainBranch.size() - 1) + m, yta, neighbors3));
-//		if(m == upBranchNumber) {
-//			System.out.print("w" + yta + "w");
-//		}
 	}
 	mainBranch.get(0).getNeighbors().add(mainBranch.get(1));
 	//Makes the main branch of the graph (above); adds the neighbors (below) (If this doesn't work, possibly make the getNeighbors an arraylist and re-make ExaptPhenotype with the new neighbors?
@@ -132,21 +119,6 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 		}
 		edges.add(placeholder3);
 	}
-//	//Testing
-//	System.out.print("Start" + mainBranch.get(0).getNeighbors().size() + "END");
-//	System.out.print("Start" + mainBranch.get(junctionA).getNeighbors().size() + "END");
-//	System.out.print("Edges" + edges.get(junctionA +1).size() +"END");
-//	//Testing
-//	for(int c = 0; c < mainBranch.size(); c++) {
-//		if(mainBranch.get(c).getNeighbors().size() == 3) {
-//			System.out.print("+");
-//			mainBranch.get(c).getNeighbors().get(2);
-//		}else {
-//			System.out.print("-");
-//		}
-//	}
-//	System.out.print(mainBranch.size() + "L");
-	//Testing 
 	return mainBranch.get(0);
 	
 }

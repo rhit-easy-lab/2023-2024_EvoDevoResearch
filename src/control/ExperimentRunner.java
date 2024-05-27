@@ -8,6 +8,9 @@ import java.util.ArrayList;
 
 import evolution.Generation;
 import evolution.Simulation;
+import landscape.ExaptFitness;
+import landscape.NKLandscape;
+import landscape.NumOnes;
 
 /**
  * This class exists to house the main method of the simulator,
@@ -37,123 +40,55 @@ public class ExperimentRunner {
 		}else{
 			System.out.println("No configuration file specified. Continuing with default paramaters.");
 		//	PropParser.load(PropParser.defaultFilename);
-		}if(Constants.STATE == 10) {
-//			System.out.println("JELLO");
-		NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
-	}else {
-		if(Constants.STATE == 2) {
-			
-			//Add state about reading from .csv, running
-			ExperimentReader.readAgents("C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\ExaptTesting5.csv", Constants.NUM_GENERATIONS);
-		
-	}else {
-		if(Constants.STATE == 3) {
-				int counter2 = 0;
-				for(int tot = 0; tot < Constants.POTENTIATION_RUN_NUM; tot++) {
-					int tester = ExperimentReader.readAgents("C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\GenerationTesting.csv", Constants.NUM_GENERATIONS);
-					if(tester>0) {
-						counter2++;
-					}
-				
-				//Number getting final fitness from some run
-				System.out.println();
-				System.out.println();
-				System.out.println("Counter!" + counter2 + " Out of " + Constants.POTENTIATION_RUN_NUM);
-				
-			}
-		}else {
-
-			ExperimentWriter writer = new ExperimentWriter();
-			if(Constants.STATE == 4) {
-				ExaptPotentiation.exaptPotentiation(0);
-			
-			}else {
-				if(Constants.STATE == 5) {
-					ExaptPotentiation.exaptPotentiation(1);
-				}else {
-					if(Constants.STATE == 6) {
-						RewindGen.reWind("C:\\Users\\renneram\\git\\2023-2024_EvoDevoResearch\\output\\"+Constants.ZOOM_IN_FILE_NAME+".csv");
-					}else {
-						if(Constants.STATE == 9) {
-							ReWindPotentiationExperiment.reWindPotentiationExperiment();
-						}else {
-								if(Constants.STATE == 11) {
-									ExperimentReader.runAndPrint();
-								}else {
-									if(Constants.STATE == 12) {
-										for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++){
-											Simulation sim = new Simulation(exaptFile);
-												sim.runSimulation();
-												writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
-												
-											}
-										ExperimentReader.runAndPrint();
-										NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
-									}else {
-										if(Constants.STATE == 13) {
-											///EvoDevoNKFLCoreMerged/output/LineageWithPotentiation.csv
-											String fileName = new File("output/" + Constants.LINEAGE_POT_FILENAME + ".csv").getAbsolutePath();
-											
-											LineageReadIn.readAgentsLineage(fileName);
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			
-		
+		}
+		ExperimentWriter writer = new ExperimentWriter();
 		System.out.println("Writing to csv file " + ExperimentWriter.rename(Constants.FILENAME));
-		//Run all of our experiments, and write them to the file as we go. Original:
 		long startTime = System.currentTimeMillis()/1000;
-
-		if(Constants.STATE == 0) {
-			Simulation sim = new Simulation();
-			sim.runSimulation(Constants.GEN_STOP_NUM);
-			writer.writeGen(sim.getGenerations().get(Constants.GEN_STOP_NUM - 1), Integer.toString(Constants.GEN_STOP_NUM), Constants.GENERATION_SIZE);
-
-//			for(int gen = 0; gen < Constants.NUM_GENERATIONS; gen++) {
+		switch(Constants.STATE) {
+//		case 0:
+//			for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
+//			{
 //				Simulation sim = new Simulation();
-//				
 //				sim.runSimulation();
-//				if(gen == Constants.GEN_STOP_NUM) {
-//					sim.runSimulation(Constants.GEN_STOP_NUM);
-//					writer.writeGen(sim.getGenerations().get(gen - 1), Integer.toString(gen), Constants.GENERATION_SIZE);
-//				}
+//				writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
+//				
+//				long endTime = System.currentTimeMillis()/1000;
+//				long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
+//				System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);
 //			}
-		}else {
-			if(Constants.STATE == 1) {
-				for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
-				{
-					Simulation sim = new Simulation();
-					sim.runSimulation();
-					writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
-					
-					long endTime = System.currentTimeMillis()/1000;
-					long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
-					System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);
-				}
-			} else if(Constants.STATE == 7){
-				for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++){
-					Simulation sim = new Simulation(exaptFile);
-						sim.runSimulation();
-						writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
-						
-						long endTime = System.currentTimeMillis()/1000;
-						long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
-						System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);
-						
-						
-					}
+		case 10:
+			NewPotentiation.newPotentiation(Constants.POTENTIATION_TYPE);
+			break;
+		case 11:
+			ExperimentReader.runAndPrint();
+			break;
+		case 13:
+			String fileName = new File("output/" + Constants.LINEAGE_POT_FILENAME + ".csv").getAbsolutePath();
+			
+			LineageReadIn.readAgentsLineage(fileName);
+			break;
+//		case 7:
+//			for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++){
+//				Simulation sim = new Simulation(exaptFile);
+//					sim.runSimulation();
+//					writer.writeSim(sim, Constants.GENERATION_SPACING, Constants.REQUIRE_LAST_GENERATION);
+//					
+//					long endTime = System.currentTimeMillis()/1000;
+//					long estimatedRemainingTime = (endTime-startTime)/(simulationNum+1)*(Constants.SAMPLE_SIZE-simulationNum-1);
+//					System.out.println("Simulation " + (simulationNum+1) + " of " + Constants.SAMPLE_SIZE + " complete, estimated minutes remaining: " + Math.round(100.0*estimatedRemainingTime/60.0)/100.0);
+//					
+//					
+//				}
+//			break;
+		default:
+			System.out.println("Invalid State Detected");
+	}
+		
 
-				}
-			}
+	
 		//
 		writer.closePrintWriter();
-		}
-		
-	}
+
 		System.out.println("");
 		System.out.println("Completed, experiment written to " + ExperimentWriter.rename(Constants.FILENAME));
 		
@@ -162,7 +97,5 @@ public class ExperimentRunner {
 		//finish up
 		
 	}
-	}
-	}
-	
+}
 

@@ -45,6 +45,7 @@ public static void newPotentiation(int potentiationType) throws IOException {
 		
 	}
 	CSVWriterSample.csvWrite(exaptPercent, startGen);
+	System.out.print("DONE");
 }
 }
 ///EvoDevoNKFLCoreMerged/output/GenerationAt60.csv
