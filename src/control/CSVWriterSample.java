@@ -8,7 +8,6 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class CSVWriterSample {
-	//String[] args, 
 
 	public static void csvWrite(ArrayList<Double> exapts, ArrayList<Integer> genNums) {
 
@@ -43,16 +42,12 @@ public class CSVWriterSample {
 		line.append("potentiation,");
 		
 		line.replace(line.length()-1, line.length(), "\n"); //replace the extra comma with a next line
-		
-//		out.print(line);
-		
+
 		// If you have the simulation go in like a loop somewhere, you can put this following stuff
-		for(int i = 0; i < genNums.size(); i++) { //Whatever loop conditions you want, put them here
+		for(int i = 1; i < genNums.size(); i++) { //Whatever loop conditions you want, put them here
 			
 			line.append(genNums.get(i) +",");
 			line.append(exapts.get(i) +",");
-//			line.append("A " + ",");
-//			line.append("B " + ",");
 			
 			//replace the extra comma with a next line
 			line.replace(line.length()-1, line.length(), "\n"); 
@@ -60,16 +55,7 @@ public class CSVWriterSample {
 		}
 		
 		out.print(line);
-		
-
-
-		
-		
-//		line.replace(line.length()-1, line.length(), "\n"); //replace the extra comma with a next line
-//		
-//		out.print(line); //finally print the line to the file
-
-		
+				
 		out.close();
 
 		

@@ -38,6 +38,7 @@ public class Constants {
 	public static final int STEP_SIZE_NUM = Integer.parseInt(PropParser.getProperty("stepSizeNum"));
 	public static final String POTENTIATION_FILENAME = PropParser.getProperty("potentiationFilename");
 	public static final String INPUT_FILENAME = PropParser.getProperty("inputFilename");
+	public static final String FINAL_FILENAME = PropParser.getProperty("finalFilename");
 	
 //	Selection Constants
 	public static final String SELECTION_TYPE = PropParser.getProperty("selectionType");

@@ -44,5 +44,6 @@ public static void newPotentiation(int potentiationType) throws IOException {
 		
 	}
 	CSVWriterSample.csvWrite(exaptPercent, startGen);
+	SpliceFiles.spliceFiles("output/"+ Constants.POTENTIATION_FILENAME +".csv", "output/" + Constants.CONDITION_FILENAME + ".csv");
 }
 }
