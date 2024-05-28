@@ -17,7 +17,8 @@ To run constant potentiation, first run state 1 and then run state 3 with the de
 
 #Graphing Instructions for Potentiation
 
-To graph the conditions and the potentiation results, go to the file labeled "Python" and open "ConditionScanner.py" on the IDE of your choice. Run "ConditionScanner.py". There will be a pop-up that asks for a file to graph. To graph the conditions and potentiation data, select the file that has the title that you
-entered in the "finalFilename" field in the "myConfig.properties" in the "output" file for this project. To graph the conditions, select the file that has the title that you entered in the "conditionFile" field in the "myConfig.properties" file, which should be in the "output" file for this project.
+To graph the conditions and the potentiation results, go to the file labeled "Python" and open "ConditionScanner.py" on the IDE of your choice. Run "ConditionScanner.py" (make sure to run this with an IDE or Python's built in IDLE, as it does not work when run from command line/double-clicked). There will be a pop-up that asks for a file to graph. To graph the conditions and potentiation data, select the file that has the title that you entered in the "finalFilename" field in the "myConfig.properties" in the "output" file for this project. To graph the conditions, select the file that has the title that you entered in the "conditionFile" field in the "myConfig.properties" file, which should be in the "output" file for this project.
 
 #Graphing Instructions for Lineage
+
+To graph the fitness and condition occurences of a lineage, the process is similar to the above. Go to the file labeled "Python", and open "LineagePlotter.py" in your IDE, making sure not to run it from the command line. There will be a pop-up allowing you to select a file, at which point you should select the csv file containing the lineage you wish to plot. After selecting it, the program should open up a window displaying the plot, which you can resize and save as a png if you wish.
