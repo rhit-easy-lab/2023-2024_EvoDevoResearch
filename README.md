@@ -1,5 +1,5 @@
 # evo-devo-nkfl 2023-2024
-Code repository for the research on the evodevo NKFL research project for the 2023-2024 school year
+Code repository for the research on the evodevo NKFL research project for the 2023-2024 school year. This repository is "frozen in time" from the code developed during research. Efforts to improve the code are underway on the main branch.
 
 To find the file for configurations, click on the folder labeled "config". Then click on the folder labeled "Exaptations". Then click on the folder named "Experiments". Now click on the file named "myConfig.properties". Editing this will change parameters for experiments.
 In order to replicate an experiment, change the seed to the given seed in the config file. Change the other parameters accordingly. The "state" field determines what experiment will run. All .csv files are stored in the "output" folder. The different states for the "state" field are as follows:
@@ -13,7 +13,9 @@ less than or equal to the integer specified in the field "numGenerations", it re
 trials in which the highest possible fitness was reached. It then prints the generation number and the corresponding percentage of trials that reached the highest possible fitness to a file with the title "Potentiation.csv".
 
 #Run Instructions
-To run constant potentiation, first run state 1 and then run state 3 with the desired parameters. This is needed because state 1 generates the files which state 3 runs from. To run cloning potentiation, run state 1, then state 2, and then run state 3 with the desired parameters.
+
+For the experiments to run, the class "ExperimentRunner.java" must be run with the "myConfig.properties". To run this, go to "Run". On the menu, select "Run Configurations". Under the "main" tab, input "EvoDevoNKFLCore_TimeTraveler" into the "Project" field and "control.ExperimentRunner" into the
+"Main class" field. Then navigate to the "Arguments" tab, and input "config/Exaptations/Experiments/myConfig.properties" to the "Program arguments" field. Select the "Default" button under the "Working Directory" tab. To run constant potentiation, first run state 1 and then run state 3 with the desired parameters. This is needed because state 1 generates the files which state 3 runs from. To run cloning potentiation, run state 1, then state 2, and then run state 3 with the desired parameters.
 
 #Graphing Instructions for Potentiation
 
