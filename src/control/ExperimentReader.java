@@ -91,18 +91,15 @@ public class ExperimentReader {
 		int finalFitCount = 0;
 		for(int simulationNum=0; simulationNum<Constants.SAMPLE_SIZE; simulationNum++)
 		{
-			//edit here
 			//Creates simulation using the new generation, the selected fitness function, and selection strategy
 			Simulation sim = new Simulation(gen30, fitFunction, select);
 			sim.reRunSimulation(resumeNum, stoppingGenNum);
 			if(sim.getFinalFitness() == Constants.GLOBAL_MAX) {
 				finalFitCount=1;
 			}
-			//System.out.print(sim.getGenerations().get(sim.getGenerations().size() - 1).getAgents());
 		
 			}
 		
-	//	writer.closePrintWriter();
 		return finalFitCount;
 //		
 		
@@ -162,10 +159,8 @@ public class ExperimentReader {
 		List<List<List<Step>>> blockyList = getBlocksNew(blockOptions);
 		ArrayList<Agent> agList = generateNewAgents(agentNums, programList, blockyList, fitFunction);
 		Generation gen30 = getNewGen(agList);
-//		System.out.println(resumeNum);
 		ExperimentWriter writer = new ExperimentWriter();
 		ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+stoppingGenNum+"");
-//		System.out.println("Reading/Writing to csv file " + ExperimentWriter.rename(Constants.FILENAME));
 //		
 		//Run all of our experiments, and write them to the file as we go. Original:
 		for(int gen = resumeNum; gen < Constants.NUM_GENERATIONS; gen++) {
@@ -187,33 +182,12 @@ public class ExperimentReader {
 		
 	}
 	public static void runAndPrint() throws IOException {
-		//Old code
-//		for(int i = 1; i < Constants.NUM_GENERATIONS + 1; i++) {
-//		//	ExperimentWriter writer = new ExperimentWriter();
-//			ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+i+"");
-//			
-//				Simulation sim = new Simulation();
-//				sim.runSimulation();
-//				ArrayList<Generation> gens = sim.getGenerations();
-//				System.out.println(gens.size());
-//				for(int k = 0; k < gens.size(); k++) {
-//				//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-//					writer2.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
-//				}
-//				writer2.closePrintWriter();
-//				
-//			}
-		
-			//	ExperimentWriter writer = new ExperimentWriter();
-				
-				//Problem fixed 
+
 					Simulation sim = new Simulation();
 					sim.runSimulation();
 					ArrayList<Generation> gens = sim.getGenerations();
-					System.out.println(gens.size());
 					for(int k = 0; k < gens.size(); k++) {
 						ExperimentWriter writer2 = new ExperimentWriter("GenerationAt"+(k)+"");
-					//	writer.writeGen(gens.get(k), Integer.toString(k+1), Constants.GENERATION_SIZE);
 						writer2.writeGen(gens.get(k), Integer.toString(k), Constants.GENERATION_SIZE);
 						writer2.closePrintWriter();
 					}
@@ -224,11 +198,6 @@ public class ExperimentReader {
 		
 		
 		
-//		System.out.println("Reading/Writing to csv file " + ExperimentWriter.rename(Constants.FILENAME));
-//		
-		//Run all of our experiments, and write them to the file as we go. Original:
-		
-		
 	}
 	
 	
@@ -236,7 +205,6 @@ public class ExperimentReader {
 	//Re-start simulation at our new generation starting number, instantiate more agents with the programs and blocks
 	public static ArrayList<Agent> generateNewAgents(String[] agentIDs, List<List<Integer>> listProgram, List<List<List<Step>>> listBlocks, FitnessFunction fittyFunc) {
 		ArrayList<Agent> agy = new ArrayList<Agent>();
-		//Just exapt fitness for now, will change later\
 		for(int r = 0; r<listProgram.size(); r++) {
 			Agent aget = new Agent(fittyFunc, listBlocks.get(r), agentIDs[r+1], listProgram.get(r));
 			agy.add(aget);

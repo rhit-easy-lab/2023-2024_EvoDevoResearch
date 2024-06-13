@@ -29,9 +29,8 @@ public class ExaptPhenotype extends Phenotype{
 //The junction1 is the node number of the place where the downwards branch starts. It is important to note that node numbers start at 0.
 //The downBranchNumber is the number of nodes on the downwards branch
 //The upBranchNumber is the number of nodes on the branch starting at the end of the downwards branch. Do not include the last node of the downBranch in this number.
-//The nodeNumbers start at 0, juntion1 is the nodenumber of the first junction.
+//The nodeNumbers start at 0 (Node A is node number 0 and has fitness 0), and juction1 is the nodenumber of the Junction Node.
 	
-	//The multipliers on the fitness are incorrect as of now for testing purposes on the down and up branches
 	
 
 public static Phenotype getFirst(int mainbranchNumber, double localMax, double globalMax, int junction1, double localMin, int downBranchNumber, int upBranchNumber) {
@@ -49,14 +48,11 @@ public static Phenotype getFirst(int mainbranchNumber, double localMax, double g
 	double stepSize2 = (junctionA*stepSize1 - localMin)/downBranchNumber;
 	for(int h = 1; h < downBranchNumber + 1; h++) {
 		List<Phenotype> neighbors2 = new ArrayList<Phenotype>();
-		//2*h as a test
 		double ytb = (stepSize1*junctionA- h*stepSize2);
 		mainBranch.add(new ExaptPhenotype(mainbranchNumber + h, ytb, neighbors2));
 	}
 	double stepSize3 = (globalMax - localMin)/(upBranchNumber);
-
 	//Makes upwards Branch
-	//upBranchNumber or upBranchNumber + 1?
 	for(int m = 1; m < upBranchNumber + 1; m++) {
 		List<Phenotype> neighbors3 = new ArrayList<Phenotype>();
 		double yta = localMin + (m)*stepSize3;
@@ -136,7 +132,6 @@ public List<Phenotype> getNeighbors() {
 
 @Override
 public Phenotype getIdenticalCopy() {
-	// TODO Auto-generated method stub
 	Phenotype copy = new ExaptPhenotype((ExaptPhenotype) ExaptPhenotype.getFirst(Constants.MAIN_BRANCH_NUMBER, 
 			Constants.LOCAL_MAX, Constants.GLOBAL_MAX, Constants.JUNCTION_NUM, Constants.LOCAL_MIN, 
 			Constants.DOWN_BRANCH_NUMBER, Constants.UP_BRANCH_NUMBER));
@@ -151,7 +146,6 @@ public int tracker() {
 }
 @Override
 public void mutate() {
-	// TODO Auto-generated method stub
 	
 }
 }
